@@ -19,11 +19,13 @@ BackDrop* BackDrop::instance(const char *file){
 }
 
 bool BackDrop::inits(const char *file){
-    if (!this->initWithFile(file)) {
+    CCSpriteFrame *frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(file);
+    if (!this->initWithSpriteFrame(frame) ) {
         return false;
     }
     
     _objType = Object_Background;
+    _speed = 200;
     
     return true;
 }

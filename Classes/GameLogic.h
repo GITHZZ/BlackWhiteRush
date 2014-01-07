@@ -17,8 +17,8 @@ class ProceedView;//关联的游戏显示
 using namespace cocos2d;
 
 #define LOG_GAMESTATE_ENABLED 0
-#define BACKGROUND_SPEED 100
 #define UPDATE_INTERVAL 1.0f/60.0f
+#define BACKGROUND_SPEED 100
 
 //游戏模式(单人,多人)
 enum GameModel {
@@ -55,9 +55,11 @@ public:
     //移动对象
     void moveGameObject(float dt);
 private:
+    static GameLogic* _singletonObject;
+    
     CCArray *_objects;
     CCScheduler *_pScheduler;
-    
+
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);
     
     //游戏模式和状态

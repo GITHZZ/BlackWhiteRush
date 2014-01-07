@@ -9,7 +9,7 @@
 #include "GameLogic.h"
 #include "ProceedView.h"
 
-static GameLogic *_singletonObject = NULL;
+GameLogic* GameLogic::_singletonObject = NULL;
 
 GameLogic* GameLogic::Singleton(){
     if (!_singletonObject) {
@@ -66,13 +66,13 @@ void GameLogic::update(float dt){
         }
             break;
         case State_Playing:{
-            //通知ProcceedView进行box2D更新
-            _proceedview->update(dt);
             //游戏进行状态,主要是场景循环,玩家可以运动和道具加障碍物的产生,Fever逻辑,分数
             //更新分数
             this->updateScore();
             //碰撞检测监听事件
             this->collisionListener();
+            //通知ProcceedView进行box2D更新
+            _proceedview->update(dt);
             //更新背景
             //产生障碍物,道具
             //移动背景,障碍物和道具
@@ -85,6 +85,7 @@ void GameLogic::update(float dt){
             break;
         case State_Pause:{
             //游戏暂停状态,单机可以进行暂停,对战可以选择此功能
+            //添加暂停界面
         }
             break;
         case State_End:{
@@ -101,23 +102,45 @@ void GameLogic::moveGameObject(float dt){
     for (int i = 0; i < _objects->count(); i++) {
         GameObject *obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(i));
         //如果是主角不用移动
-        if (obj->getObjType() == Object_Role) {
-            continue;
-        }
+        if (obj->getObjType() == Object_Role) continue;
+        
+        obj->setBodyPosition(ccp(obj->getBodyPosition().x - obj->getSpeed() * dt, obj->getBodyPosition().y));
+        
         //如果是背景对象而且位置已经超过了就删除并且添加新的
         if (obj->getObjType() == Object_Background &&
             obj->getBodyPosition().x <= -obj->getContentSize().width) {
             CCLOG("++++++++++remove background+++++++++++++++");
             
             GameObject *lastObj = this->popObjectFromType(Object_Background);
+            
             _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * obj->getScaleX(),
                                              lastObj->getBodyPosition().y));
 
             _proceedview->removeChild(obj);
             this->deleteObject(obj);
+            continue;
         }
         
-        obj->setBodyPosition(ccp(obj->getBodyPosition().x - BACKGROUND_SPEED * dt, obj->getBodyPosition().y));
+//        if (obj->getObjType() == Object_Grass &&
+//            obj->getBodyPosition().x <= -obj->getContentSize().width) {
+//            CCLOG("++++++++++remove background+++++++++++++++");
+//            
+//            GameObject *lastObj = this->popObjectFromType(Object_Grass);
+//            
+//            _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * obj->getScaleX(),
+//                                             lastObj->getBodyPosition().y));
+//            
+//            _proceedview->removeChild(obj);
+//            this->deleteObject(obj);
+//            continue;
+//        }
+        
+        //如果是非背景和非主角
+        if (obj->getBodyPosition().x <= -obj->getContentSize().width) {
+            CCLOG("++++++++++++++++remove game object++++++++++++++++");
+            _proceedview->removeChild(obj);
+            this->deleteObject(obj);
+        }
     }
 }
 
@@ -152,9 +175,10 @@ void GameLogic::collisionListener(){
             if (arr_obj->getObjType() == Object_Role) {//主角
                 for (int j = 0; j < _objects->count(); j++) {
                     
-                    GameObject* unRoleObj = dynamic_cast<GameObject*>(_objects->objectAtIndex(0));
+                    GameObject* unRoleObj = dynamic_cast<GameObject*>(_objects->objectAtIndex(j));
                     
-                    if (unRoleObj->getObjType() != Object_Role) {//道具或者障碍物
+                    if (unRoleObj->getObjType() != Object_Role &&
+                        unRoleObj->getObjType() != Object_Background) {//道具或者障碍物
                         arr_obj->checkCollision(unRoleObj);
                     }
                 }

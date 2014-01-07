@@ -1,4 +1,10 @@
 APPNAME="BlackWhiteRush"
+SDK_ROOT=/Users/user/Documents/AndroidTools/android-sdk-mac
+NDK_ROOT=/Users/user/Documents/AndroidTools/android-ndk-r8b
+COCOS2DX_ROOT=/Users/user/Documents/AndroidTools/cocos2d-x-2.2.1
+GAME_ROOT=$COCOS2DX_ROOT/projects/BlackWhiteRush
+GAME_ANDROID_ROOT=$GAME_ROOT/proj.android
+RESOURCE_ROOT=$GAME_ROOT/Resources
 
 # options
 

@@ -24,10 +24,11 @@ bool Role::inits(const char* file){
     }
     
     _objType = Object_Role;
+    _speed = 100;
     
     return true;
 }
 
 void Role::onCollisionEnter(GameObject* collision){
-    
+    CCLOG("++===============Collision Enter======================++");
 }

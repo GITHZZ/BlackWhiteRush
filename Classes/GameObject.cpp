@@ -17,22 +17,24 @@ bool GameObject::init(){
     _bType = b2_staticBody;
     _density = 1.0f;
     _friction = 1.0f;
+    _speed = 10;
     
     return true;
 }
 
 void GameObject::checkCollision(GameObject *collision){
-    if (!collision->getIsActive()) return;
+    //if (!collision->getIsActive()) return;
     
     //获取碰撞体包围盒
-    CCRect objRect = CCRectMake(this->getPosition().x-this->getContentSize().width/2,
-                                this->getPosition().y-this->getContentSize().height/2,
+    CCRect objRect = CCRectMake(this->getBodyPosition().x-this->getContentSize().width/2,
+                                this->getBodyPosition().y-this->getContentSize().height/2,
                                 this->getContentSize().width,
                                 this->getContentSize().height);
-    CCRect collider = CCRectMake(collision->getPosition().x-collision->getContentSize().width/2,
-                                 collision->getPosition().y-collision->getContentSize().height/2,
+    CCRect collider = CCRectMake(collision->getBodyPosition().x-collision->getContentSize().width/2,
+                                 collision->getBodyPosition().y-collision->getContentSize().height/2,
                                  collision->getContentSize().width,
                                  collision->getContentSize().height);
+    //CCLOG("collision:%f,%f,%f,%f",collision->getPosition().x,)
     if (objRect.intersectsRect(collider)) {
         this->onCollisionEnter(collision);
     }

@@ -27,6 +27,12 @@ public:
     CREATE_FUNC(ProceedController);
     static ProceedController* Singleton();
     bool init();
+    
+    CCMenuItemSprite* instanceButton(const char* unselected,const char* selected,SEL_MenuHandler selector);
+    void gamePauseFunc();
+    void gameJumpFunc();
+private:
+    static ProceedController* _singletonController;
 };
 
 #endif /* defined(__BlackWhiteRush__ProceedController__) */

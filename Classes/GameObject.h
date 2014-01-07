@@ -18,7 +18,8 @@ enum ObjectType {
     Object_Role,//主角
     Object_Prop,//道具
     Object_Block,//障碍物
-    Object_Background//背景
+    Object_Background,//背景
+    Object_Grass//草地
 };
 
 enum BarrierType {
@@ -58,6 +59,8 @@ protected:
     float _ptmRadio;
     //对象类型
     CC_SYNTHESIZE_READONLY(ObjectType,_objType,ObjType);
+    //速度
+    CC_SYNTHESIZE(float, _speed, Speed);
 private:
     //是否为活跃状态
     CC_SYNTHESIZE(bool,isActive,IsActive);

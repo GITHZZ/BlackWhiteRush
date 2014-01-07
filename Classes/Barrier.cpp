@@ -19,11 +19,12 @@ Barrier* Barrier::instance(const char *file){
 }
 
 bool Barrier::inits(const char *file){
-    if (this->initWithFile(file)) {
+    if (!this->initWithFile(file)) {
         return false;
     }
     
     _objType = Object_Block;
+    _speed = 100;
     
     return true;
 }

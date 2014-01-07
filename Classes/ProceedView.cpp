@@ -10,7 +10,7 @@
 
 #define PTM_RADIO 32
 
-static ProceedView* _singletonView = NULL;
+ProceedView* ProceedView::_singletonView = NULL;
 
 ProceedView* ProceedView::Singleton(){
     if (!_singletonView) {
@@ -33,6 +33,7 @@ bool ProceedView::init(){
     }
     
     this->initVisibleSize();
+    this->initGameSize();
     this->initPhysics();
     
     //做初始渲染
@@ -40,20 +41,29 @@ bool ProceedView::init(){
     for (int i = 0; i < 2; i++) {
         CCSize winSize = CCDirector::sharedDirector()->getWinSize();
         this->drawBackground(ccp(winSize.width/2 + winSize.width * i,winSize.height/2));
+        //this->drawGrass(ccp(winSize.width/2 + winSize.width * i,320));
     }
 #endif
     //主角
     Role *role = Role::instance("Icon-72.png");
-    role->setPosition(ccp(100, 100));
+    role->setPosition(ccp(100, 300));
     role->setBodyType(b2_dynamicBody);
     role->setDensity(1.0f);
     role->setFriction(0.3f);
     this->addChild(role);
     this->createBodyRect(role);
     GameLogic::Singleton()->pushObject(role);
-
-    //更新Box2D
-    //scheduleUpdate();
+    
+    //测试===============
+//    Props *prop = Props::instance("Icon-72.png");
+//    prop->setPosition(ccp(960, 50));
+//    prop->setBodyType(b2_staticBody);
+//    prop->setDensity(1.0f);
+//    prop->setFriction(0.3f);
+//    this->addChild(prop);
+//    this->createBodyRect(prop);
+//    GameLogic::Singleton()->pushObject(prop);
+    //测试===============
     
     return true;
 }
@@ -108,23 +118,20 @@ void ProceedView::initPhysics(){
     b2EdgeShape groundBox;
     
     //bottom
-    groundBox.Set(b2Vec2(_visibleSize.origin.x/PTM_RADIO, _visibleSize.origin.y/PTM_RADIO),
-                  b2Vec2((_visibleSize.origin.x + _visibleSize.size.width)/PTM_RADIO,_visibleSize.origin.y/PTM_RADIO));
-    
+    groundBox.Set(b2Vec2(_gSize.leftBottom.x/PTM_RADIO, _gSize.leftBottom.y/PTM_RADIO),
+                  b2Vec2(_gSize.rightBottom.x/PTM_RADIO,_gSize.rightBottom.y/PTM_RADIO));
     groundBody->CreateFixture(&groundBox,0);
     //top
-    groundBox.Set(b2Vec2(_visibleSize.origin.x/PTM_RADIO,(_visibleSize.origin.y + _visibleSize.size.height)/PTM_RADIO),
-                  b2Vec2((_visibleSize.origin.x + _visibleSize.size.width)/PTM_RADIO,
-                         (_visibleSize.origin.y + _visibleSize.size.height)/PTM_RADIO));
+    groundBox.Set(b2Vec2(_gSize.leftTop.x/PTM_RADIO,_gSize.leftTop.y/PTM_RADIO),
+                  b2Vec2(_gSize.rightTop.x/PTM_RADIO,_gSize.rightTop.y/PTM_RADIO));
     groundBody->CreateFixture(&groundBox,0);
     //left
-    groundBox.Set(b2Vec2(_visibleSize.origin.x/PTM_RADIO,_visibleSize.origin.y/PTM_RADIO),
-                  b2Vec2(_visibleSize.origin.x/PTM_RADIO,(_visibleSize.origin.y + _visibleSize.size.height)/PTM_RADIO));
+    groundBox.Set(b2Vec2(_gSize.leftBottom.x/PTM_RADIO,_gSize.leftBottom.y/PTM_RADIO),
+                  b2Vec2(_gSize.leftTop.x/PTM_RADIO,_gSize.leftTop.y/PTM_RADIO));
     groundBody->CreateFixture(&groundBox,0);
     //right
-    groundBox.Set(b2Vec2((_visibleSize.origin.x + _visibleSize.size.width)/PTM_RADIO,_visibleSize.origin.y/PTM_RADIO),
-                  b2Vec2((_visibleSize.origin.x + _visibleSize.size.width)/PTM_RADIO,
-                         (_visibleSize.origin.y + _visibleSize.size.height)/PTM_RADIO));
+    groundBox.Set(b2Vec2(_gSize.rightBottom.x/PTM_RADIO,_gSize.rightBottom.y/PTM_RADIO),
+                  b2Vec2(_gSize.rightTop.x/PTM_RADIO,_gSize.rightTop.y/PTM_RADIO));
     groundBody->CreateFixture(&groundBox,0);
 }
 
@@ -147,18 +154,62 @@ void ProceedView::initVisibleSize(){
           _visibleSize.size.width,_visibleSize.size.height);
 }
 
+void ProceedView::initGameSize(){
+    _gSize.leftTop = ccp(_visibleSize.origin.x,_visibleSize.origin.y + _visibleSize.size.height);
+    _gSize.leftBottom = ccp(_visibleSize.origin.x,_visibleSize.origin.y + SUB_HEIGHT);
+    _gSize.rightTop = ccp(_visibleSize.origin.x + _visibleSize.size.width,
+                          _visibleSize.origin.y + _visibleSize.size.height);
+    _gSize.rightBottom = ccp(_visibleSize.origin.x + _visibleSize.size.width,
+                             _visibleSize.origin.y + SUB_HEIGHT );
+    CCLOG("+===game==size====leftTop(%f,%f)===leftBottom(%f,%f)===rightTop(%f,%f)==rightBottom(%f,%f)++",
+          _gSize.leftTop.x,_gSize.leftTop.y,_gSize.leftBottom.x,_gSize.leftBottom.y,
+          _gSize.rightTop.x,_gSize.rightTop.y,_gSize.rightBottom.x,_gSize.rightBottom.y);
+}
+
 void ProceedView::drawView(){
     
 }
 
 void ProceedView::drawBackground(cocos2d::CCPoint pos){
-    BackDrop *backdrop = BackDrop::instance("bg_w.png");
-    backdrop->setPosition(ccp(pos.x,pos.y));
+    BackDrop* backdrop = BackDrop::instance("bg_w.png");
+    backdrop->setPosition(pos);
     backdrop->setBodyType(b2_staticBody);
     backdrop->setScale(2.0f);
     this->addChild(backdrop,-1);
     this->createBodyRect(backdrop);
     GameLogic::Singleton()->pushObject(backdrop);
+}
+
+void ProceedView::drawGrass(cocos2d::CCPoint pos){
+    Grass* grass = Grass::instance("grass.png");
+    grass->setPosition(pos);
+    grass->setBodyType(b2_staticBody);
+    grass->setScale(1.0f);
+    this->addChild(grass,1);
+    this->createBodyRect(grass);
+    GameLogic::Singleton()->pushObject(grass);
+}
+
+void ProceedView::drawProp(cocos2d::CCPoint pos){
+    Props* prop = Props::instance("Icon-72.png");
+    prop->setPosition(ccp(960, 320));
+    prop->setBodyType(b2_staticBody);
+    prop->setDensity(1.0f);
+    prop->setFriction(0.3f);
+    this->addChild(prop);
+    this->createBodyRect(prop);
+    GameLogic::Singleton()->pushObject(prop);
+}
+
+void ProceedView::drawBarrier(cocos2d::CCPoint pos){
+    Barrier *barrier = Barrier::instance("Icon-72.png");
+    barrier->setPosition(ccp(960, 100));
+    barrier->setBodyType(b2_staticBody);
+    barrier->setDensity(1.0f);
+    barrier->setFriction(0.3f);
+    this->addChild(barrier);
+    this->createBodyRect(barrier);
+    GameLogic::Singleton()->pushObject(barrier);
 }
 
 #if GLESDEBUG_DRAW_ENABLE

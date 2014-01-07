@@ -21,16 +21,25 @@
 #include "cocos2d.h"
 #include "GameLogic.h"
 #include "Role.h"
+#include "Grass.h"
 #include "Props.h"
 #include "Barrier.h"
 #include "BackDrop.h"
 #include "Box2D.h"
 
 #define GLESDEBUG_DRAW_ENABLE 0
+#define SUB_HEIGHT 100 
 
 #if GLESDEBUG_DRAW_ENABLE 
 class GLESDebugDraw;
 #endif
+
+struct GameSize{
+    CCPoint leftTop;
+    CCPoint leftBottom;
+    CCPoint rightTop;
+    CCPoint rightBottom;
+};
 
 using namespace cocos2d;
 
@@ -45,13 +54,21 @@ public:
     
     void initPhysics();
     void initVisibleSize();
+    void initGameSize();
+    
     void createBodyRect(GameObject* obj);
     
     void drawView();
     void drawBackground(CCPoint pos);
+    void drawGrass(CCPoint pos);
+    void drawProp(CCPoint pos);
+    void drawBarrier(CCPoint pos);
 private:
+    static ProceedView* _singletonView;
+    
     b2World* _world;
     CCRect _visibleSize;
+    GameSize _gSize;
     
 #if GLESDEBUG_DRAW_ENABLE
     GLESDebugDraw* _debugDraw;

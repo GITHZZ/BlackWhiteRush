@@ -20,6 +20,9 @@ bool ProceedScene::init(){
         return false;
     }
     
+    //将精灵表中的.plist文件加进缓冲区
+    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("gElement.plist");
+    
     ProceedView *proView = ProceedView::Singleton();
     this->addChild(proView,ViewZOrder);
     

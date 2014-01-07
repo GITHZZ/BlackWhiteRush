@@ -19,11 +19,12 @@ Props* Props::instance(const char* file){
 }
 
 bool Props::inits(const char* file){
-    if (this->initWithFile(file)) {
+    if (!this->initWithFile(file)) {
         return false;
     }
     
     _objType = Object_Prop;
+    _speed = 100;
     
     return true;
 }
