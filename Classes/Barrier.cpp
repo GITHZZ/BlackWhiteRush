@@ -19,12 +19,14 @@ Barrier* Barrier::instance(const char *file){
 }
 
 bool Barrier::inits(const char *file){
-    if (!this->initWithFile(file)) {
+    CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(file);
+    if (!this->initWithSpriteFrame(frame)) {
         return false;
     }
     
     _objType = Object_Block;
     _speed = 100;
+    _boxRect = CCSizeMake(0.5f, 0.5f);
     
     return true;
 }

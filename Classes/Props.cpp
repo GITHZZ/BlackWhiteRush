@@ -25,6 +25,7 @@ bool Props::inits(const char* file){
     
     _objType = Object_Prop;
     _speed = 100;
+    _boxRect = CCSizeMake(0.5f, 0.5f);
     
     return true;
 }

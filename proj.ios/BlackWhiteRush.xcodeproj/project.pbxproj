@@ -237,15 +237,16 @@
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
+		CE069433188237D4005A9403 /* GameEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE069431188237D4005A9403 /* GameEmitter.cpp */; };
 		CE12392F18714CCA00DBFCB9 /* Props.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE12392D18714CCA00DBFCB9 /* Props.cpp */; };
 		CE1486851871081C00AB35F9 /* Role.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1486831871081C00AB35F9 /* Role.cpp */; };
 		CE3E04C5187A40DD004D8AAF /* TPCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */; };
 		CE3E04C8187A5789004D8AAF /* gElement.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3E04C6187A5789004D8AAF /* gElement.png */; };
 		CE3E04C9187A5789004D8AAF /* gElement.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE3E04C7187A5789004D8AAF /* gElement.plist */; };
-		CE3E04CC187A81D6004D8AAF /* Grass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3E04CA187A81D6004D8AAF /* Grass.cpp */; };
 		CE447633187AAAE9004E68AD /* ProceedPause.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE447631187AAAE9004E68AD /* ProceedPause.cpp */; };
 		CE447636187AAC12004E68AD /* num_b.png in Resources */ = {isa = PBXBuildFile; fileRef = CE447635187AAC12004E68AD /* num_b.png */; };
 		CE4CD36B186E6F06006EEAF5 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE4CD369186E6F06006EEAF5 /* GameObject.cpp */; };
+		CE50C36E187F9B2D005154D1 /* Land.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE50C36C187F9B2D005154D1 /* Land.cpp */; };
 		CE6C821C186D9C98006D3F6F /* GameLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE6C821A186D9C98006D3F6F /* GameLogic.cpp */; };
 		CE72773D186FC527005AB35E /* ProceedScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72773B186FC527005AB35E /* ProceedScene.cpp */; };
 		CE727740186FC5F1005AB35E /* ProceedView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72773E186FC5F1005AB35E /* ProceedView.cpp */; };
@@ -747,6 +748,8 @@
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CE069431188237D4005A9403 /* GameEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameEmitter.cpp; path = ../Classes/GameEmitter.cpp; sourceTree = "<group>"; };
+		CE069432188237D4005A9403 /* GameEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEmitter.h; path = ../Classes/GameEmitter.h; sourceTree = "<group>"; };
 		CE12392D18714CCA00DBFCB9 /* Props.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Props.cpp; path = ../Classes/Props.cpp; sourceTree = "<group>"; };
 		CE12392E18714CCA00DBFCB9 /* Props.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Props.h; path = ../Classes/Props.h; sourceTree = "<group>"; };
 		CE1486831871081C00AB35F9 /* Role.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Role.cpp; path = ../Classes/Role.cpp; sourceTree = "<group>"; };
@@ -756,13 +759,13 @@
 		CE3E04C4187A40DD004D8AAF /* TPCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCurl.h; sourceTree = "<group>"; };
 		CE3E04C6187A5789004D8AAF /* gElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gElement.png; sourceTree = "<group>"; };
 		CE3E04C7187A5789004D8AAF /* gElement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gElement.plist; sourceTree = "<group>"; };
-		CE3E04CA187A81D6004D8AAF /* Grass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Grass.cpp; path = ../Classes/Grass.cpp; sourceTree = "<group>"; };
-		CE3E04CB187A81D6004D8AAF /* Grass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Grass.h; path = ../Classes/Grass.h; sourceTree = "<group>"; };
 		CE447631187AAAE9004E68AD /* ProceedPause.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProceedPause.cpp; path = ../Classes/ProceedPause.cpp; sourceTree = "<group>"; };
 		CE447632187AAAE9004E68AD /* ProceedPause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProceedPause.h; path = ../Classes/ProceedPause.h; sourceTree = "<group>"; };
 		CE447635187AAC12004E68AD /* num_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = num_b.png; sourceTree = "<group>"; };
 		CE4CD369186E6F06006EEAF5 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../Classes/GameObject.cpp; sourceTree = "<group>"; };
 		CE4CD36A186E6F06006EEAF5 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../Classes/GameObject.h; sourceTree = "<group>"; };
+		CE50C36C187F9B2D005154D1 /* Land.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Land.cpp; path = ../Classes/Land.cpp; sourceTree = "<group>"; };
+		CE50C36D187F9B2D005154D1 /* Land.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Land.h; path = ../Classes/Land.h; sourceTree = "<group>"; };
 		CE6C821A186D9C98006D3F6F /* GameLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameLogic.cpp; path = ../Classes/GameLogic.cpp; sourceTree = "<group>"; };
 		CE6C821B186D9C98006D3F6F /* GameLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameLogic.h; path = ../Classes/GameLogic.h; sourceTree = "<group>"; };
 		CE72773B186FC527005AB35E /* ProceedScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProceedScene.cpp; path = ../Classes/ProceedScene.cpp; sourceTree = "<group>"; };
@@ -1309,8 +1312,8 @@
 				CE3E04C1187A40DD004D8AAF /* curl */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
-				CE72773B186FC527005AB35E /* ProceedScene.cpp */,
 				CE72773C186FC527005AB35E /* ProceedScene.h */,
+				CE72773B186FC527005AB35E /* ProceedScene.cpp */,
 				CE72773E186FC5F1005AB35E /* ProceedView.cpp */,
 				CE72773F186FC5F1005AB35E /* ProceedView.h */,
 				CE727741186FC612005AB35E /* ProceedController.cpp */,
@@ -1319,6 +1322,8 @@
 				CE447632187AAAE9004E68AD /* ProceedPause.h */,
 				CE6C821A186D9C98006D3F6F /* GameLogic.cpp */,
 				CE6C821B186D9C98006D3F6F /* GameLogic.h */,
+				CE069431188237D4005A9403 /* GameEmitter.cpp */,
+				CE069432188237D4005A9403 /* GameEmitter.h */,
 				CE4CD369186E6F06006EEAF5 /* GameObject.cpp */,
 				CE4CD36A186E6F06006EEAF5 /* GameObject.h */,
 				CE1486831871081C00AB35F9 /* Role.cpp */,
@@ -1329,8 +1334,8 @@
 				CEFC48BE18715324009CE020 /* Barrier.h */,
 				CE754D46187172F4000B645F /* BackDrop.cpp */,
 				CE754D47187172F4000B645F /* BackDrop.h */,
-				CE3E04CA187A81D6004D8AAF /* Grass.cpp */,
-				CE3E04CB187A81D6004D8AAF /* Grass.h */,
+				CE50C36C187F9B2D005154D1 /* Land.cpp */,
+				CE50C36D187F9B2D005154D1 /* Land.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
 			);
@@ -2056,7 +2061,7 @@
 				1A8F3B72175E05DA00049216 /* AtlasAttachmentLoader.cpp in Sources */,
 				1A8F3B73175E05DA00049216 /* Attachment.cpp in Sources */,
 				1A8F3B74175E05DA00049216 /* AttachmentLoader.cpp in Sources */,
-				CE3E04CC187A81D6004D8AAF /* Grass.cpp in Sources */,
+				CE50C36E187F9B2D005154D1 /* Land.cpp in Sources */,
 				1A8F3B75175E05DA00049216 /* Bone.cpp in Sources */,
 				1A8F3B76175E05DA00049216 /* BoneData.cpp in Sources */,
 				1A8F3B77175E05DA00049216 /* CCSkeleton.cpp in Sources */,
@@ -2121,6 +2126,7 @@
 				379BB9C217F03F3700829B88 /* UIImageView.cpp in Sources */,
 				379BB9C317F03F3700829B88 /* UILabel.cpp in Sources */,
 				379BB9C417F03F3700829B88 /* UILabelAtlas.cpp in Sources */,
+				CE069433188237D4005A9403 /* GameEmitter.cpp in Sources */,
 				CE6C821C186D9C98006D3F6F /* GameLogic.cpp in Sources */,
 				379BB9C517F03F3700829B88 /* UILabelBMFont.cpp in Sources */,
 				379BB9C617F03F3700829B88 /* UILoadingBar.cpp in Sources */,

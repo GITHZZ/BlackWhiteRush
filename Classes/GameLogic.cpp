@@ -24,6 +24,7 @@ GameLogic::~GameLogic(){
     
     CC_SAFE_RELEASE(_pScheduler);
     CC_SAFE_RELEASE(_objects);
+    CC_SAFE_RELEASE(_emitter);
     
     _singletonObject = NULL;
 }
@@ -45,9 +46,17 @@ void GameLogic::init(){
     CC_SAFE_RETAIN(_objects);
     _objects->init();
     
+    /*初始化游戏中的物体发射器*/
+    _emitter = new GameEmitter();
+    CC_SAFE_RETAIN(_emitter);
+    
     /*初始化分数倍数*/
     _score = 0;
     _multiple = 30;
+    
+    /*初始化间隔时间*/
+    deltaTime = 1.0f;//1S
+    curDeltaTime = 0.0f;
     
     /*获取计时器*/
     _pScheduler = CCDirector::sharedDirector()->getScheduler();
@@ -66,21 +75,29 @@ void GameLogic::update(float dt){
         }
             break;
         case State_Playing:{
+            if (_currentModel == Model_Multiple) {
+                //网络连接
+            }
             //游戏进行状态,主要是场景循环,玩家可以运动和道具加障碍物的产生,Fever逻辑,分数
+            //通知ProcceedView进行box2D更新
+            _proceedview->update(dt);
+            //更新主角状态
+            _proceedview->getRole()->update(dt);
+            //绘制分数,fever非按钮部分,血条
+            _proceedview->drawView();
             //更新分数
             this->updateScore();
             //碰撞检测监听事件
             this->collisionListener();
-            //通知ProcceedView进行box2D更新
-            _proceedview->update(dt);
             //更新背景
-            //产生障碍物,道具
+            //产生障碍物,道具 间隔时间 1S 产生
+            curDeltaTime += dt;
+            if (curDeltaTime >= deltaTime) {
+                this->getDataFromEmitter();
+                curDeltaTime = 0.0f;
+            }
             //移动背景,障碍物和道具
             this->moveGameObject(dt);
-            
-            if (_currentModel == Model_Multiple) {
-                //网络连接
-            }
         }
             break;
         case State_Pause:{
@@ -117,35 +134,47 @@ void GameLogic::moveGameObject(float dt){
                                              lastObj->getBodyPosition().y));
 
             _proceedview->removeChild(obj);
+            _proceedview->destroyBody(obj);
             this->deleteObject(obj);
+
             continue;
         }
-        
-//        if (obj->getObjType() == Object_Grass &&
-//            obj->getBodyPosition().x <= -obj->getContentSize().width) {
-//            CCLOG("++++++++++remove background+++++++++++++++");
-//            
-//            GameObject *lastObj = this->popObjectFromType(Object_Grass);
-//            
-//            _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * obj->getScaleX(),
-//                                             lastObj->getBodyPosition().y));
-//            
-//            _proceedview->removeChild(obj);
-//            this->deleteObject(obj);
-//            continue;
-//        }
-        
+            
         //如果是非背景和非主角
         if (obj->getBodyPosition().x <= -obj->getContentSize().width) {
             CCLOG("++++++++++++++++remove game object++++++++++++++++");
             _proceedview->removeChild(obj);
+            _proceedview->destroyBody(obj);
             this->deleteObject(obj);
         }
     }
 }
 
+void GameLogic::getDataFromEmitter(){
+    switch (_emitter->popData()) {
+        case Barrier_Stone:
+            break;
+        case Barrier_Step:
+            break;
+        case Barrier_Gear:
+            break;
+        case Barrier_Stab:
+            break;
+        case Barrier_Rocket:
+            break;
+        case Prop_Sprint:
+            break;
+        case Prop_Blood:
+            break;
+        case Prop_Wave:
+            break;
+        default:
+            break;
+    }
+}
+
 void GameLogic::updateScore(){
-    _score += _score * _multiple;
+    _score += _multiple;
 }
 
 void GameLogic::pushObject(GameObject *gameObject){

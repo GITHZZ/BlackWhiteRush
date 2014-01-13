@@ -18,6 +18,7 @@ bool GameObject::init(){
     _density = 1.0f;
     _friction = 1.0f;
     _speed = 10;
+    _boxRect = CCSizeMake(0.0f, 0.0f);
     
     return true;
 }
@@ -66,6 +67,16 @@ void GameObject::setBodyPosition(const cocos2d::CCPoint &position){
 CCPoint GameObject::getBodyPosition() const{
     //if (!_pB2Body) return this->getPosition();
     return ccp(_pB2Body->GetPosition().x * _ptmRadio,_pB2Body->GetPosition().y * _ptmRadio);
+}
+
+void GameObject::setBodyRotation(float fRotation){
+    b2Vec2 p = _pB2Body->GetPosition();
+    float rad = CC_DEGREES_TO_RADIANS(fRotation);
+    _pB2Body->SetTransform(p, rad);
+}
+
+float GameObject::getBodyRotation() const{
+    return CC_RADIANS_TO_DEGREES(_pB2Body->GetAngle());
 }
 
 CCAffineTransform GameObject::nodeToParentTransform(){

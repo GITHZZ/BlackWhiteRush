@@ -13,6 +13,7 @@
 ProceedScene::~ProceedScene(){
     CCLOG("+==========PROCEEDSCENE RELEASE=============+");
     GameLogic::Singleton()->end();
+    CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFrameByName("gElement.plist");
 }
 
 bool ProceedScene::init(){

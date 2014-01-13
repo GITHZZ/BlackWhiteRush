@@ -21,14 +21,14 @@
 #include "cocos2d.h"
 #include "GameLogic.h"
 #include "Role.h"
-#include "Grass.h"
 #include "Props.h"
+#include "Land.h"
 #include "Barrier.h"
 #include "BackDrop.h"
 #include "Box2D.h"
 
 #define GLESDEBUG_DRAW_ENABLE 0
-#define SUB_HEIGHT 100 
+#define SUB_HEIGHT 200 //最低高度
 
 #if GLESDEBUG_DRAW_ENABLE 
 class GLESDebugDraw;
@@ -57,18 +57,27 @@ public:
     void initGameSize();
     
     void createBodyRect(GameObject* obj);
+    void destroyBody(GameObject* obj);
     
     void drawView();
     void drawBackground(CCPoint pos);
-    void drawGrass(CCPoint pos);
-    void drawProp(CCPoint pos);
-    void drawBarrier(CCPoint pos);
+    void drawProp(PropType type,CCPoint pos);
+    void drawBarrier(BarrierType type,CCPoint pos);
+    void drawLand(CCPoint pos);
+    
+    void updateScore();
+    void updateFever();
 private:
     static ProceedView* _singletonView;
     
     b2World* _world;
     CCRect _visibleSize;
     GameSize _gSize;
+    
+    CCLabelAtlas* scoreStr;
+    CCProgressTimer* feverProgress;
+    
+    CC_SYNTHESIZE_READONLY(Role*,role,Role);
     
 #if GLESDEBUG_DRAW_ENABLE
     GLESDebugDraw* _debugDraw;

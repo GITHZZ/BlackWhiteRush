@@ -18,4 +18,5 @@ public:
     virtual bool inits(const char* file);
     virtual void onCollisionEnter(GameObject* collision);
 };
+
 #endif /* defined(__BlackWhiteRush__backDrop__) */

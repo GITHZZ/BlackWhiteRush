@@ -19,7 +19,7 @@ enum ObjectType {
     Object_Prop,//道具
     Object_Block,//障碍物
     Object_Background,//背景
-    Object_Grass//草地
+    Object_Land//地面
 };
 
 enum BarrierType {
@@ -51,12 +51,17 @@ public:
     void setBodyPosition(const CCPoint &position);
     CCPoint getBodyPosition() const;
     
+    void setBodyRotation(float fRotation);
+    float getBodyRotation() const;
+    
     void checkCollision(GameObject* collision);
 protected:
-    //精灵对象物理Body
-    b2Body* _pB2Body;
     //将单位像素转换成米的比例
     float _ptmRadio;
+    //精灵对象物理Body
+    b2Body* _pB2Body;
+    //设置box2D大小
+    CC_SYNTHESIZE_READONLY(CCSize,_boxRect,BoxRect);
     //对象类型
     CC_SYNTHESIZE_READONLY(ObjectType,_objType,ObjType);
     //速度

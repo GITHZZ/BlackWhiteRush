@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "GameLogic.h"
+#include "GameEmitter.h"
 
 class HelloWorld : public cocos2d::CCLayer
 {

@@ -29,10 +29,14 @@ public:
     bool init();
     
     CCMenuItemSprite* instanceButton(const char* unselected,const char* selected,SEL_MenuHandler selector);
+    
     void gamePauseFunc();
     void gameJumpFunc();
+    void gameFeverFunc();
 private:
     static ProceedController* _singletonController;
+    
+    CCProgressTimer* feverProgress;
 };
 
 #endif /* defined(__BlackWhiteRush__ProceedController__) */

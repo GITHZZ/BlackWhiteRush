@@ -37,26 +37,28 @@ bool ProceedView::init(){
     this->initPhysics();
     
     //做初始渲染
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 #if GLESDEBUG_DRAW_ENABLE == 0
     for (int i = 0; i < 2; i++) {
-        CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-        this->drawBackground(ccp(winSize.width/2 + winSize.width * i,winSize.height/2));
-        //this->drawGrass(ccp(winSize.width/2 + winSize.width * i,320));
+        CCSpriteFrame *bgFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("bg_w.png");
+        this->drawBackground(ccp(winSize.width/2 + bgFrame->getRect().size.width * 2 * i,winSize.height/2));
     }
 #endif
     //主角
-    Role *role = Role::instance("Icon-72.png");
-    role->setPosition(ccp(100, 300));
+    role = Role::instance("player.png");
+    role->setPosition(role->getStandardPos());
     role->setBodyType(b2_dynamicBody);
     role->setDensity(1.0f);
+    role->setScale(2.0f);
     role->setFriction(0.3f);
     this->addChild(role);
     this->createBodyRect(role);
     GameLogic::Singleton()->pushObject(role);
     
     //测试===============
+    this->drawBarrier(Barrier_Gear, ccp(960, 250));
 //    Props *prop = Props::instance("Icon-72.png");
-//    prop->setPosition(ccp(960, 50));
+//    prop->setPosition(ccp(960, 190));
 //    prop->setBodyType(b2_staticBody);
 //    prop->setDensity(1.0f);
 //    prop->setFriction(0.3f);
@@ -64,6 +66,37 @@ bool ProceedView::init(){
 //    this->createBodyRect(prop);
 //    GameLogic::Singleton()->pushObject(prop);
     //测试===============
+    
+    //ferver Bg
+    CCSpriteFrame*feverFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("feverBg.png");
+    CCSprite *feverBg = CCSprite::createWithSpriteFrame(feverFrame);
+    
+    feverProgress = CCProgressTimer::create(feverBg);
+    feverProgress->setPercentage(0.0f);
+    feverProgress->setType(kCCProgressTimerTypeRadial);
+    feverProgress->setPosition(ccp(winSize.width - feverBg->getContentSize().width - 150, 100));
+    this->addChild(feverProgress);
+    
+    //分数
+    scoreStr = CCLabelAtlas::create("000000", "num_b.png", 32, 32, '0');
+    scoreStr->setPosition(ccp(80,winSize.height - scoreStr->getContentSize().height * 2));
+    this->addChild(scoreStr);
+    
+    //功能栏
+    for (int i = 0; i < 3; i ++) {
+        CCSpriteFrame* boxFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("PropBox.png");
+        CCSprite *propBox = CCSprite::createWithSpriteFrame(boxFrame);
+        propBox->setScale(0.7f);
+        propBox->setPosition(ccp(propBox->getContentSize().width + propBox->getContentSize().width *
+                                 propBox->getScale() * i,100));
+        this->addChild(propBox);
+    }
+    
+    //底部陆地
+    for (int i = 0; i < 10; i++) {
+        CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("land.png");
+        this->drawLand(ccp(- frame->getRect().size.width + frame->getRect().size.width * i , SUB_HEIGHT));
+    }
     
     return true;
 }
@@ -76,7 +109,7 @@ void ProceedView::createBodyRect(GameObject *obj){
     b2Body *body = _world->CreateBody(&bodyDef);
     
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(.5f, .5f);
+    dynamicBox.SetAsBox(obj->getBoxRect().width,obj->getBoxRect().height);
     
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -86,6 +119,12 @@ void ProceedView::createBodyRect(GameObject *obj){
     
     obj->setB2Body(body);
     obj->setPtmRadio(PTM_RADIO);
+}
+
+void ProceedView::destroyBody(GameObject *obj){
+    b2Body* objBody = obj->getB2Body();
+    CCAssert(objBody, "Fail to destroy body because body is null");
+    _world->DestroyBody(objBody);
 }
 
 void ProceedView::initPhysics(){
@@ -167,6 +206,32 @@ void ProceedView::initGameSize(){
 }
 
 void ProceedView::drawView(){
+    //分数,血条,fever非按钮部分
+    this->updateScore();
+}
+
+void ProceedView::updateScore(){
+    int score = GameLogic::Singleton()->getScore();
+    int multiple = GameLogic::Singleton()->getMultiple();
+    
+    CCString *scoreLabel;
+    if (score >= 100000) {
+        scoreLabel = CCString::createWithFormat("%d %d",score,multiple);
+    }else if(score >= 10000){
+        scoreLabel = CCString::createWithFormat("0%d %d",score,multiple);
+    }else if(score >= 1000){
+        scoreLabel = CCString::createWithFormat("00%d %d",score,multiple);
+    }else if(score >= 100){
+        scoreLabel = CCString::createWithFormat("000%d %d",score,multiple);
+    }else if(score >= 10){
+        scoreLabel = CCString::createWithFormat("0000%d %d",score,multiple);
+    }else if(score >= 0){
+        scoreLabel = CCString::createWithFormat("00000%d %d",score,multiple);
+    }
+    scoreStr->setString(scoreLabel->getCString());
+}
+
+void ProceedView::updateFever(){
     
 }
 
@@ -180,19 +245,19 @@ void ProceedView::drawBackground(cocos2d::CCPoint pos){
     GameLogic::Singleton()->pushObject(backdrop);
 }
 
-void ProceedView::drawGrass(cocos2d::CCPoint pos){
-    Grass* grass = Grass::instance("grass.png");
-    grass->setPosition(pos);
-    grass->setBodyType(b2_staticBody);
-    grass->setScale(1.0f);
-    this->addChild(grass,1);
-    this->createBodyRect(grass);
-    GameLogic::Singleton()->pushObject(grass);
+void ProceedView::drawLand(cocos2d::CCPoint pos){
+    Land* land = Land::instance("land.png");
+    land->setPosition(pos);
+    land->setBodyType(b2_staticBody);
+    land->setColor(ccBLACK);
+    land->setScale(1.0f);
+    this->addChild(land,1);
+    this->createBodyRect(land);
 }
 
-void ProceedView::drawProp(cocos2d::CCPoint pos){
+void ProceedView::drawProp(PropType type,cocos2d::CCPoint pos){
     Props* prop = Props::instance("Icon-72.png");
-    prop->setPosition(ccp(960, 320));
+    prop->setPosition(pos);
     prop->setBodyType(b2_staticBody);
     prop->setDensity(1.0f);
     prop->setFriction(0.3f);
@@ -201,9 +266,15 @@ void ProceedView::drawProp(cocos2d::CCPoint pos){
     GameLogic::Singleton()->pushObject(prop);
 }
 
-void ProceedView::drawBarrier(cocos2d::CCPoint pos){
-    Barrier *barrier = Barrier::instance("Icon-72.png");
-    barrier->setPosition(ccp(960, 100));
+void ProceedView::drawBarrier(BarrierType type,cocos2d::CCPoint pos){
+    const char* barrierName = NULL;
+    if (type == Barrier_Gear) barrierName = "gear1.png";
+    
+    CCAssert(barrierName != NULL, "faile to get barrier file Name!");
+    
+    Barrier* barrier = Barrier::instance(barrierName);
+    barrier->setPosition(pos);
+    barrier->setScale(1.5f);
     barrier->setBodyType(b2_staticBody);
     barrier->setDensity(1.0f);
     barrier->setFriction(0.3f);

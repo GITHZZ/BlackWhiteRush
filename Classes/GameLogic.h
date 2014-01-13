@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "GameObject.h"
+#include "GameEmitter.h"
 
 class ProceedView;//关联的游戏显示
 
@@ -54,12 +55,19 @@ public:
     void updateScore();
     //移动对象
     void moveGameObject(float dt);
+    //从发射器中获取数据并且通知View进行渲染
+    void getDataFromEmitter();
 private:
     static GameLogic* _singletonObject;
     
+    GameEmitter* _emitter;
+    
     CCArray *_objects;
     CCScheduler *_pScheduler;
-
+    
+    float deltaTime;
+    float curDeltaTime;
+    
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);
     
     //游戏模式和状态
@@ -69,6 +77,9 @@ private:
     //分数以及分数的倍数
     CC_SYNTHESIZE(int, _score, Score);
     CC_SYNTHESIZE(int, _multiple, Multiple);
+    
+    //分数倍数是否启动
+    CC_SYNTHESIZE(bool,_isFevering,FeverState);
 };
 
 #endif /* defined(__BlackWhiteRush__GameLogic__) */
