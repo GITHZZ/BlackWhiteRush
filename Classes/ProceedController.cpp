@@ -9,16 +9,6 @@
 #include "ProceedController.h"
 #include "ProceedView.h"
 
-ProceedController* ProceedController::_singletonController = NULL;
-
-ProceedController* ProceedController::Singleton(){
-    CCLOG("+=============PROCEEDCONTROLLER SINGLETON==================+");
-    if (!_singletonController) {
-        _singletonController = ProceedController::create();
-    }
-    return _singletonController;
-}
-
 bool ProceedController::init(){
     if (!CCLayer::init()) {
         return false;
@@ -47,16 +37,6 @@ bool ProceedController::init(){
     menu->setPosition(0, 0);
     this->addChild(menu,100);
     
-//    CCSpriteFrame*feverFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("feverBg.png");
-//    CCSprite *feverBg = CCSprite::createWithSpriteFrame(feverFrame);
-//    
-//    feverProgress = CCProgressTimer::create(feverBg);
-//    feverProgress->setPercentage(10.0f);
-//    feverProgress->setType(kCCProgressTimerTypeRadial);
-//    feverProgress->setPosition(fever->getPosition());
-//    
-//    this->addChild(feverProgress);
-    
     return true;
 }
 
@@ -76,7 +56,7 @@ void ProceedController::gamePauseFunc(){
     if (GameLogic::Singleton()->getState() == State_Playing) {
         GameLogic::Singleton()->setState(State_Pause);
     }else if(GameLogic::Singleton()->getState() == State_Pause){
-        GameLogic::Singleton()->setState(State_Playing);
+//        GameLogic::Singleton()->setState(State_Playing);
     }
     
     //若是多人进行状态
@@ -96,4 +76,14 @@ void ProceedController::gameJumpFunc(){
 
 void ProceedController::gameFeverFunc(){
     CCLOG("+================game fever func====================+");
+    if (GameLogic::Singleton()->getFeverState() != Fever_enable) return;
+    
+    //加倍
+    //增加倍数
+    if(GameLogic::Singleton()->getMultiple() <= 80){
+        GameLogic::Singleton()->setMultiple(GameLogic::Singleton()->getMultiple() + 10);
+    }
+    GameLogic::Singleton()->getPView()->getProgress()->setPercentage(0.0f);
+    //取消fever状态
+    GameLogic::Singleton()->setFeverState(Fever_doing);
 }

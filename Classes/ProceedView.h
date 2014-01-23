@@ -25,10 +25,15 @@
 #include "Land.h"
 #include "Barrier.h"
 #include "BackDrop.h"
+#include "ProceedPause.h"
 #include "Box2D.h"
+
+USING_NS_CC;
 
 #define GLESDEBUG_DRAW_ENABLE 0
 #define SUB_HEIGHT 200 //最低高度
+#define PAUSE_PANEL_TAG 300
+#define PAUSE_SHADE_TAG 310
 
 #if GLESDEBUG_DRAW_ENABLE 
 class GLESDebugDraw;
@@ -40,8 +45,6 @@ struct GameSize{
     CCPoint rightTop;
     CCPoint rightBottom;
 };
-
-using namespace cocos2d;
 
 class ProceedView : public CCLayer{
 public:
@@ -65,23 +68,32 @@ public:
     void drawBarrier(BarrierType type,CCPoint pos);
     void drawLand(CCPoint pos);
     
+    void drawPropToBox(PropType ty);
+    
     void updateScore();
     void updateFever();
-private:
-    static ProceedView* _singletonView;
+    void updateBlood(float percentage);
     
+    void addPausePanel();
+    void removePausePanel();
+    void addPauseShade();//暂停用添加遮罩
+    void removePauseShade();
+private:    
     b2World* _world;
     CCRect _visibleSize;
     GameSize _gSize;
     
     CCLabelAtlas* scoreStr;
-    CCProgressTimer* feverProgress;
+    PropBox* propBox[3];//道具箱
     
     CC_SYNTHESIZE_READONLY(Role*,role,Role);
+    CC_SYNTHESIZE_READONLY(CCProgressTimer*,feverProgress,Progress);
+    CC_SYNTHESIZE_READONLY(CCProgressTimer*,bloodProgress,BloodProgress);
     
 #if GLESDEBUG_DRAW_ENABLE
     GLESDebugDraw* _debugDraw;
     void draw();
+    void drawCollisionBox();
 #endif
 };
 

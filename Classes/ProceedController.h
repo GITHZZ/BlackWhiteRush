@@ -20,12 +20,11 @@
 #include "cocos2d.h"
 #include "GameLogic.h"
 
-using namespace cocos2d;
+USING_NS_CC;
 
 class ProceedController : public CCLayer{
 public:
     CREATE_FUNC(ProceedController);
-    static ProceedController* Singleton();
     bool init();
     
     CCMenuItemSprite* instanceButton(const char* unselected,const char* selected,SEL_MenuHandler selector);
@@ -33,10 +32,7 @@ public:
     void gamePauseFunc();
     void gameJumpFunc();
     void gameFeverFunc();
-private:
-    static ProceedController* _singletonController;
-    
-    CCProgressTimer* feverProgress;
+
 };
 
 #endif /* defined(__BlackWhiteRush__ProceedController__) */

@@ -20,7 +20,6 @@ using namespace cocos2d;
 class ProceedScene : public CCScene{
 public:
     CREATE_FUNC(ProceedScene);
-    ~ProceedScene();
     bool init();
 };
 

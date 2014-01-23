@@ -12,10 +12,11 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 #include "GameEmitter.h"
+#include "PropBox.h"
 
 class ProceedView;//关联的游戏显示
 
-using namespace cocos2d;
+USING_NS_CC;
 
 #define LOG_GAMESTATE_ENABLED 0
 #define UPDATE_INTERVAL 1.0f/60.0f
@@ -32,6 +33,12 @@ enum GameState {
     State_Pause,   //暂停
     State_Start,   //开始(游戏开始倒数)
     State_End      //结束
+};
+
+enum FeverState{
+    Fever_unable,
+    Fever_enable,
+    Fever_doing
 };
 
 class GameLogic : public CCObject{
@@ -53,6 +60,8 @@ public:
     void collisionListener();
     //更新分数
     void updateScore();
+    //血量的更新
+    void updateBlood();
     //移动对象
     void moveGameObject(float dt);
     //从发射器中获取数据并且通知View进行渲染
@@ -61,13 +70,12 @@ private:
     static GameLogic* _singletonObject;
     
     GameEmitter* _emitter;
-    
-    CCArray *_objects;
     CCScheduler *_pScheduler;
     
     float deltaTime;
     float curDeltaTime;
     
+    CC_SYNTHESIZE_READONLY(CCArray*, _objects, Objects);
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);
     
     //游戏模式和状态
@@ -78,8 +86,11 @@ private:
     CC_SYNTHESIZE(int, _score, Score);
     CC_SYNTHESIZE(int, _multiple, Multiple);
     
-    //分数倍数是否启动
-    CC_SYNTHESIZE(bool,_isFevering,FeverState);
+    //分数倍数状态
+    CC_SYNTHESIZE(FeverState,_feverState, FeverState);
+    
+    //血量
+    CC_SYNTHESIZE(float, _blood, Blood);
 };
 
 #endif /* defined(__BlackWhiteRush__GameLogic__) */

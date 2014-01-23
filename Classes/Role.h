@@ -12,12 +12,11 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 
-using namespace cocos2d;
-
 enum RoleState{
-    Role_Move,
-    Role_Death,
-    Role_JumpOnce,
+    Role_Move,//移动
+    Role_Death,//死亡
+    Role_Bruise,//受伤
+    Role_JumpOnce,//跳跃
     Role_JumpSecond,
     Role_JumpingOnce,
     Role_JumpingSecond
@@ -38,7 +37,12 @@ public:
     
     void update(float dt);
     void jumpAction();
+    void skillAction(SkillState sk);
+    
 private:
+    float actionCurTime;
+    float deltaTime;
+    
     CC_SYNTHESIZE(RoleState, _rState, State);
     CC_SYNTHESIZE(SkillState, _skState, SkState);
     CC_SYNTHESIZE(CCPoint, _standardPoint,StandardPos);

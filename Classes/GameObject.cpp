@@ -15,7 +15,9 @@ bool GameObject::init(){
     _objType = Object_Role;
     _ptmRadio = 32.0f;
     _bType = b2_staticBody;
+    _groundIndex = 1;
     _density = 1.0f;
+    _isTrigger = false;
     _friction = 1.0f;
     _speed = 10;
     _boxRect = CCSizeMake(0.0f, 0.0f);
@@ -27,15 +29,16 @@ void GameObject::checkCollision(GameObject *collision){
     //if (!collision->getIsActive()) return;
     
     //获取碰撞体包围盒
-    CCRect objRect = CCRectMake(this->getBodyPosition().x-this->getContentSize().width/2,
-                                this->getBodyPosition().y-this->getContentSize().height/2,
-                                this->getContentSize().width,
-                                this->getContentSize().height);
-    CCRect collider = CCRectMake(collision->getBodyPosition().x-collision->getContentSize().width/2,
-                                 collision->getBodyPosition().y-collision->getContentSize().height/2,
-                                 collision->getContentSize().width,
-                                 collision->getContentSize().height);
-    //CCLOG("collision:%f,%f,%f,%f",collision->getPosition().x,)
+    float curScale = this->getScale() - 0.5;
+    CCRect objRect = CCRectMake(this->getBodyPosition().x - this->getContentSize().width/2 * curScale,
+                                this->getBodyPosition().y - this->getContentSize().height/2 * curScale,
+                                this->getContentSize().width * curScale,
+                                this->getContentSize().height * curScale);
+    float colliderCurScale = this->getScale() - 0.5;
+    CCRect collider = CCRectMake(collision->getBodyPosition().x - collision->getContentSize().width/2 * colliderCurScale,
+                                 collision->getBodyPosition().y - collision->getContentSize().height/2 * colliderCurScale,
+                                 collision->getContentSize().width * colliderCurScale,
+                                 collision->getContentSize().height * colliderCurScale);
     if (objRect.intersectsRect(collider)) {
         this->onCollisionEnter(collision);
     }

@@ -240,9 +240,9 @@
 		CE069433188237D4005A9403 /* GameEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE069431188237D4005A9403 /* GameEmitter.cpp */; };
 		CE12392F18714CCA00DBFCB9 /* Props.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE12392D18714CCA00DBFCB9 /* Props.cpp */; };
 		CE1486851871081C00AB35F9 /* Role.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1486831871081C00AB35F9 /* Role.cpp */; };
+		CE37F3B418910ADE003926E1 /* gElement.png in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B218910ADE003926E1 /* gElement.png */; };
+		CE37F3B518910ADE003926E1 /* gElement.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B318910ADE003926E1 /* gElement.plist */; };
 		CE3E04C5187A40DD004D8AAF /* TPCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */; };
-		CE3E04C8187A5789004D8AAF /* gElement.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3E04C6187A5789004D8AAF /* gElement.png */; };
-		CE3E04C9187A5789004D8AAF /* gElement.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE3E04C7187A5789004D8AAF /* gElement.plist */; };
 		CE447633187AAAE9004E68AD /* ProceedPause.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE447631187AAAE9004E68AD /* ProceedPause.cpp */; };
 		CE447636187AAC12004E68AD /* num_b.png in Resources */ = {isa = PBXBuildFile; fileRef = CE447635187AAC12004E68AD /* num_b.png */; };
 		CE4CD36B186E6F06006EEAF5 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE4CD369186E6F06006EEAF5 /* GameObject.cpp */; };
@@ -252,7 +252,7 @@
 		CE727740186FC5F1005AB35E /* ProceedView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72773E186FC5F1005AB35E /* ProceedView.cpp */; };
 		CE727743186FC612005AB35E /* ProceedController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE727741186FC612005AB35E /* ProceedController.cpp */; };
 		CE754D48187172F4000B645F /* BackDrop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE754D46187172F4000B645F /* BackDrop.cpp */; };
-		CEDBA9C81874397A00307AA0 /* bg_w.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDBA9C71874397A00307AA0 /* bg_w.png */; };
+		CEE4D182188CF81900A44030 /* PropBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEE4D180188CF81900A44030 /* PropBox.cpp */; };
 		CEFC48BF18715324009CE020 /* Barrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC48BD18715324009CE020 /* Barrier.cpp */; };
 		D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41A0AD0160F154A004552AE /* Default-568h@2x.png */; };
 		D446FD6E16102124000ADA7B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D446FD6D16102124000ADA7B /* Default@2x.png */; };
@@ -754,12 +754,12 @@
 		CE12392E18714CCA00DBFCB9 /* Props.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Props.h; path = ../Classes/Props.h; sourceTree = "<group>"; };
 		CE1486831871081C00AB35F9 /* Role.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Role.cpp; path = ../Classes/Role.cpp; sourceTree = "<group>"; };
 		CE1486841871081C00AB35F9 /* Role.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Role.h; path = ../Classes/Role.h; sourceTree = "<group>"; };
+		CE37F3B218910ADE003926E1 /* gElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gElement.png; sourceTree = "<group>"; };
+		CE37F3B318910ADE003926E1 /* gElement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gElement.plist; sourceTree = "<group>"; };
 		CE3E04C2187A40DD004D8AAF /* Sealed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sealed.h; sourceTree = "<group>"; };
 		CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPCurl.cpp; sourceTree = "<group>"; };
 		CE3E04C4187A40DD004D8AAF /* TPCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCurl.h; sourceTree = "<group>"; };
-		CE3E04C6187A5789004D8AAF /* gElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gElement.png; sourceTree = "<group>"; };
-		CE3E04C7187A5789004D8AAF /* gElement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gElement.plist; sourceTree = "<group>"; };
-		CE447631187AAAE9004E68AD /* ProceedPause.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProceedPause.cpp; path = ../Classes/ProceedPause.cpp; sourceTree = "<group>"; };
+		CE447631187AAAE9004E68AD /* ProceedPause.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProceedPause.cpp; path = ../Classes/ProceedPause.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		CE447632187AAAE9004E68AD /* ProceedPause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProceedPause.h; path = ../Classes/ProceedPause.h; sourceTree = "<group>"; };
 		CE447635187AAC12004E68AD /* num_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = num_b.png; sourceTree = "<group>"; };
 		CE4CD369186E6F06006EEAF5 /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../Classes/GameObject.cpp; sourceTree = "<group>"; };
@@ -776,7 +776,8 @@
 		CE727742186FC612005AB35E /* ProceedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProceedController.h; path = ../Classes/ProceedController.h; sourceTree = "<group>"; };
 		CE754D46187172F4000B645F /* BackDrop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BackDrop.cpp; path = ../Classes/BackDrop.cpp; sourceTree = "<group>"; };
 		CE754D47187172F4000B645F /* BackDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackDrop.h; path = ../Classes/BackDrop.h; sourceTree = "<group>"; };
-		CEDBA9C71874397A00307AA0 /* bg_w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_w.png; sourceTree = "<group>"; };
+		CEE4D180188CF81900A44030 /* PropBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PropBox.cpp; path = ../Classes/PropBox.cpp; sourceTree = "<group>"; };
+		CEE4D181188CF81900A44030 /* PropBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropBox.h; path = ../Classes/PropBox.h; sourceTree = "<group>"; };
 		CEFC48BD18715324009CE020 /* Barrier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Barrier.cpp; path = ../Classes/Barrier.cpp; sourceTree = "<group>"; };
 		CEFC48BE18715324009CE020 /* Barrier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Barrier.h; path = ../Classes/Barrier.h; sourceTree = "<group>"; };
 		D41A0AD0160F154A004552AE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../proj.ios/Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1312,8 +1313,8 @@
 				CE3E04C1187A40DD004D8AAF /* curl */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
-				CE72773C186FC527005AB35E /* ProceedScene.h */,
 				CE72773B186FC527005AB35E /* ProceedScene.cpp */,
+				CE72773C186FC527005AB35E /* ProceedScene.h */,
 				CE72773E186FC5F1005AB35E /* ProceedView.cpp */,
 				CE72773F186FC5F1005AB35E /* ProceedView.h */,
 				CE727741186FC612005AB35E /* ProceedController.cpp */,
@@ -1324,6 +1325,8 @@
 				CE6C821B186D9C98006D3F6F /* GameLogic.h */,
 				CE069431188237D4005A9403 /* GameEmitter.cpp */,
 				CE069432188237D4005A9403 /* GameEmitter.h */,
+				CEE4D180188CF81900A44030 /* PropBox.cpp */,
+				CEE4D181188CF81900A44030 /* PropBox.h */,
 				CE4CD369186E6F06006EEAF5 /* GameObject.cpp */,
 				CE4CD36A186E6F06006EEAF5 /* GameObject.h */,
 				CE1486831871081C00AB35F9 /* Role.cpp */,
@@ -1783,9 +1786,6 @@
 			isa = PBXGroup;
 			children = (
 				CE447634187AAC12004E68AD /* GameImage */,
-				CE3E04C6187A5789004D8AAF /* gElement.png */,
-				CE3E04C7187A5789004D8AAF /* gElement.plist */,
-				CEDBA9C71874397A00307AA0 /* bg_w.png */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
 				1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */,
@@ -1815,6 +1815,8 @@
 		CE447634187AAC12004E68AD /* GameImage */ = {
 			isa = PBXGroup;
 			children = (
+				CE37F3B218910ADE003926E1 /* gElement.png */,
+				CE37F3B318910ADE003926E1 /* gElement.plist */,
 				CE447635187AAC12004E68AD /* num_b.png */,
 			);
 			path = GameImage;
@@ -1894,15 +1896,14 @@
 				D4EF949A15BD2D8B00D803EB /* Icon-57.png in Resources */,
 				D4EF949C15BD2D8E00D803EB /* Icon-114.png in Resources */,
 				D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */,
+				CE37F3B518910ADE003926E1 /* gElement.plist in Resources */,
 				D4EF94A015BD2D9800D803EB /* Icon-144.png in Resources */,
-				CE3E04C9187A5789004D8AAF /* gElement.plist in Resources */,
 				D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */,
 				D446FD6E16102124000ADA7B /* Default@2x.png in Resources */,
+				CE37F3B418910ADE003926E1 /* gElement.png in Resources */,
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
-				CE3E04C8187A5789004D8AAF /* gElement.png in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
-				CEDBA9C81874397A00307AA0 /* bg_w.png in Resources */,
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
 				379BB9CC17F03F3700829B88 /* json_internalarray.inl in Resources */,
 				379BB9CD17F03F3700829B88 /* json_internalmap.inl in Resources */,
@@ -2076,6 +2077,7 @@
 				1A8F3B80175E05DA00049216 /* Slot.cpp in Sources */,
 				1A8F3B81175E05DA00049216 /* SlotData.cpp in Sources */,
 				1A8F3B82175E05DA00049216 /* spine-cocos2dx.cpp in Sources */,
+				CEE4D182188CF81900A44030 /* PropBox.cpp in Sources */,
 				1AB87035175E0A84005D39BF /* WebSocket.cpp in Sources */,
 				1A9CE8781765A12C000E3062 /* AssetsManager.cpp in Sources */,
 				379BB99517F03F3700829B88 /* CCActionFrame.cpp in Sources */,

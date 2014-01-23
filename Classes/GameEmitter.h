@@ -17,8 +17,14 @@
 
 #define ROWS 5
 #define COLS 5
+#define EMITTER_START_POSX 960
 
-using namespace cocos2d;
+struct EmitterMsg{
+    float positionY;//发射的Y轴位置
+    int type;//类型
+};
+
+USING_NS_CC;
 
 class GameEmitter : public CCObject{
 public:
@@ -27,11 +33,11 @@ public:
     
     void updateDatas();
     
-    void pushData(int data);
-    int popData() const;
+    void pushData(EmitterMsg data);
+    EmitterMsg popData();
 private:
-    std::vector<int> datas;
-    int *dataArr;
+    std::vector<EmitterMsg> datas;
+    EmitterMsg* dataArr;
 };
 
 #endif /* defined(__BlackWhiteRush__GameEmitter__) */

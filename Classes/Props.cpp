@@ -19,12 +19,14 @@ Props* Props::instance(const char* file){
 }
 
 bool Props::inits(const char* file){
-    if (!this->initWithFile(file)) {
+    CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(file);
+    if (!this->initWithSpriteFrame(frame)) {
         return false;
     }
     
     _objType = Object_Prop;
-    _speed = 100;
+    _propType = Prop_None;
+    _speed = 150;
     _boxRect = CCSizeMake(0.5f, 0.5f);
     
     return true;

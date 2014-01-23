@@ -29,6 +29,7 @@ bool Role::inits(const char* file){
     _speed = 100;
     _rState = Role_Move;
     _skState = Skill_None;
+    _isTrigger = true;
     _boxRect = CCSizeMake(0.5,0.5);
     _standardPoint = ccp(150, 300);
     
@@ -37,10 +38,46 @@ bool Role::inits(const char* file){
 
 void Role::onCollisionEnter(GameObject* collision){
     CCLOG("++===============Collision Enter======================++");
+    //如果撞到障碍物 就把Fever状态设计成enable
+    if (collision->getObjType() == Object_Block && _rState != Role_Bruise) {//障碍物
+        Barrier* barrier = dynamic_cast<Barrier*>(collision);
+        switch (barrier->getBarrierType()) {
+            case Barrier_Gear:
+            case Barrier_Stab:
+            case Barrier_Stone:
+            case Barrier_Rocket:
+                //_rState = Role_Bruise;
+                this->runAction(CCRepeat::create(CCFadeIn::create(0.3f),2.0f));
+                break;
+            case Barrier_Step:
+                break;
+            default:
+                CCLOG("+==============fail to get Barrier Type=================+");
+                exit(EXIT_FAILURE);
+                break;
+        }
+    }else if(collision->getObjType() == Object_Prop){//道具，添加到道具栏中
+        Props* prop = dynamic_cast<Props*>(collision);
+        switch (prop->getPropType()) {
+            case Prop_Sprint:
+            case Prop_Blood:
+            case Prop_Wave:
+                //先在工具栏设置类型
+                GameLogic::Singleton()->getPView()->drawPropToBox(prop->getPropType());
+                //删除该道具并且放入到工具栏中
+                GameLogic::Singleton()->getPView()->removeChild(prop);
+                GameLogic::Singleton()->getPView()->destroyBody(prop);
+                GameLogic::Singleton()->deleteObject(prop);
+                break;
+            default:
+                CCLOG("+==============fail to get Prop Type=================+");
+                exit(EXIT_FAILURE);
+                break;
+        }
+    }
 }
 
 void Role::update(float dt){
-    
     //根据状态进行跳跃动作
     this->jumpAction();
     
@@ -52,6 +89,22 @@ void Role::update(float dt){
         if (subPointX != 0) {//有偏差
             this->setBodyPosition(ccpAdd(this->getBodyPosition(),ccp(subPointX * dt,0)));
         }
+    }
+}
+
+void Role::skillAction(SkillState sk){
+    switch (sk) {
+        case Skill_Blood:
+            CCLOG("+=================Blood Skill Open===============+");
+            break;
+        case Skill_Sprint:
+            CCLOG("+=================Sprint Skill Open===============+");
+            break;
+        case Skill_Wave:
+            CCLOG("+=================Wave Skill Open===============+");
+            break;
+        default:
+            break;
     }
 }
 

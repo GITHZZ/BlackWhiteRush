@@ -25,7 +25,8 @@ bool Barrier::inits(const char *file){
     }
     
     _objType = Object_Block;
-    _speed = 100;
+    _barrierType = Barrier_None;
+    _speed = 150;
     _boxRect = CCSizeMake(0.5f, 0.5f);
     
     return true;
@@ -33,4 +34,11 @@ bool Barrier::inits(const char *file){
 
 void Barrier::onCollisionEnter(GameObject *collision){
     
+}
+
+void Barrier::barrierAction(){
+    if (_barrierType == Barrier_Gear) {//旋转
+        float newAngle  = CC_RADIANS_TO_DEGREES((CC_DEGREES_TO_RADIANS(_pB2Body->GetAngle()) + 0.001f));
+        _pB2Body->SetTransform(_pB2Body->GetPosition(), newAngle);
+    }
 }

@@ -10,16 +10,6 @@
 
 #define PTM_RADIO 32
 
-ProceedView* ProceedView::_singletonView = NULL;
-
-ProceedView* ProceedView::Singleton(){
-    if (!_singletonView) {
-        CCLOG("+=============PROCEEDVIEW SINGLETON==================+");
-        _singletonView = ProceedView::create();
-    }
-    return _singletonView;
-}
-
 ProceedView::~ProceedView(){
     CC_SAFE_DELETE(_world);
 #if GLESDEBUG_DRAW_ENABLE
@@ -55,21 +45,9 @@ bool ProceedView::init(){
     this->createBodyRect(role);
     GameLogic::Singleton()->pushObject(role);
     
-    //测试===============
-    this->drawBarrier(Barrier_Gear, ccp(960, 250));
-//    Props *prop = Props::instance("Icon-72.png");
-//    prop->setPosition(ccp(960, 190));
-//    prop->setBodyType(b2_staticBody);
-//    prop->setDensity(1.0f);
-//    prop->setFriction(0.3f);
-//    this->addChild(prop);
-//    this->createBodyRect(prop);
-//    GameLogic::Singleton()->pushObject(prop);
-    //测试===============
-    
     //ferver Bg
-    CCSpriteFrame*feverFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("feverBg.png");
-    CCSprite *feverBg = CCSprite::createWithSpriteFrame(feverFrame);
+    CCSpriteFrame* feverFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("feverBg.png");
+    CCSprite* feverBg = CCSprite::createWithSpriteFrame(feverFrame);
     
     feverProgress = CCProgressTimer::create(feverBg);
     feverProgress->setPercentage(0.0f);
@@ -82,21 +60,36 @@ bool ProceedView::init(){
     scoreStr->setPosition(ccp(80,winSize.height - scoreStr->getContentSize().height * 2));
     this->addChild(scoreStr);
     
-    //功能栏
-    for (int i = 0; i < 3; i ++) {
-        CCSpriteFrame* boxFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("PropBox.png");
-        CCSprite *propBox = CCSprite::createWithSpriteFrame(boxFrame);
-        propBox->setScale(0.7f);
-        propBox->setPosition(ccp(propBox->getContentSize().width + propBox->getContentSize().width *
-                                 propBox->getScale() * i,100));
-        this->addChild(propBox);
-    }
-    
     //底部陆地
     for (int i = 0; i < 10; i++) {
         CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("land.png");
         this->drawLand(ccp(- frame->getRect().size.width + frame->getRect().size.width * i , SUB_HEIGHT));
     }
+    
+    //工具栏
+    for (int i = 0; i < 3; i ++) {
+        propBox[i] = PropBox::instance("PropBox.png",i);
+        propBox[i]->setPosition(ccp(propBox[i]->getContentSize().width + propBox[i]->getContentSize().width *
+                               propBox[i]->getScale() * i,100));
+        
+        this->addChild(propBox[i]);
+    }
+    
+    //血条
+    CCSprite* bloodBg = CCSprite::createWithSpriteFrameName("bloodBg.png");
+    bloodBg->setPosition(ccp(scoreStr->getPosition().x + 500,
+                             winSize.height - bloodBg->getContentSize().height/2 - 10));
+    this->addChild(bloodBg);
+    
+    CCSprite* spriteFrame = CCSprite::createWithSpriteFrameName("blood.png");
+    bloodProgress = CCProgressTimer::create(spriteFrame);
+    bloodProgress->setType(kCCProgressTimerTypeBar);
+    bloodProgress->setPosition(bloodBg->getPosition());
+    bloodProgress->setMidpoint(ccp(0,0.5));
+    bloodProgress->setBarChangeRate(ccp(1,0));
+    bloodProgress->setPercentage(100.0f);
+    
+    this->addChild(bloodProgress);
     
     return true;
 }
@@ -105,7 +98,7 @@ void ProceedView::createBodyRect(GameObject *obj){
     b2BodyDef bodyDef;
     bodyDef.type = obj->getBodyType();
     bodyDef.position.Set(obj->getPosition().x/PTM_RADIO,obj->getPosition().y/PTM_RADIO);
-    
+
     b2Body *body = _world->CreateBody(&bodyDef);
     
     b2PolygonShape dynamicBox;
@@ -115,8 +108,9 @@ void ProceedView::createBodyRect(GameObject *obj){
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = obj->getDensity();
     fixtureDef.friction = obj->getFriction();
+    fixtureDef.filter.groupIndex = obj->getGroundIndex();
     body->CreateFixture(&fixtureDef);
-    
+
     obj->setB2Body(body);
     obj->setPtmRadio(PTM_RADIO);
 }
@@ -232,7 +226,52 @@ void ProceedView::updateScore(){
 }
 
 void ProceedView::updateFever(){
+    float curPercentage = feverProgress->getPercentage();
+    feverProgress->setPercentage(curPercentage + 0.1f);
+}
+
+void ProceedView::updateBlood(float percentage){
+    bloodProgress->setPercentage(percentage);
+}
+
+void ProceedView::addPausePanel(){
+    CCNode* node = this->getChildByTag(PAUSE_PANEL_TAG);
+    if (node != NULL) {
+        return;
+    }
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    ProceedPause* _proceedPause = ProceedPause::create();
+    _proceedPause->setPosition(ccp(winSize.width/2, winSize.height/2));
+    _proceedPause->setScale(0.0f);
+    _proceedPause->runAction(CCScaleTo::create(0.2f, 1.0f));
+    this->addChild(_proceedPause,101,PAUSE_PANEL_TAG);
+}
+
+void ProceedView::removePausePanel(){
+    CCNode* node = this->getChildByTag(PAUSE_PANEL_TAG);
+    if (node == NULL) {
+        return;
+    }
+    this->removeChildByTag(PAUSE_PANEL_TAG, true);
+}
+
+void ProceedView::addPauseShade(){
+    CCNode* node = this->getChildByTag(PAUSE_SHADE_TAG);
+    if (node != NULL) {
+        return;
+    }
     
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    CCLayerColor* shade = CCLayerColor::create(ccc4(0, 0, 0, 150),winSize.width, winSize.height);
+    this->addChild(shade,100,PAUSE_SHADE_TAG);
+}
+
+void ProceedView::removePauseShade(){
+    CCNode* node = this->getChildByTag(PAUSE_SHADE_TAG);
+    if (node == NULL) {
+        return;
+    }
+    this->removeChildByTag(PAUSE_SHADE_TAG);
 }
 
 void ProceedView::drawBackground(cocos2d::CCPoint pos){
@@ -253,11 +292,21 @@ void ProceedView::drawLand(cocos2d::CCPoint pos){
     land->setScale(1.0f);
     this->addChild(land,1);
     this->createBodyRect(land);
+    //GameLogic::Singleton()->pushObject(land);
 }
 
 void ProceedView::drawProp(PropType type,cocos2d::CCPoint pos){
-    Props* prop = Props::instance("Icon-72.png");
+    const char* propName = NULL;
+    if (type == Prop_Sprint) propName = "s.png";
+    if (type == Prop_Blood)  propName = "B.png";
+    if (type == Prop_Wave)   propName = "w.png";
+    
+    CCAssert(propName != NULL, "fail to get barrier file Name!");
+    
+    Props* prop = Props::instance(propName);
     prop->setPosition(pos);
+    prop->runAction(CCRepeatForever::create(CCSequence::create(CCScaleTo::create(0.5f,1.5f),CCScaleTo::create(0.5f,1.0f),NULL)));
+    prop->setPropType(type);
     prop->setBodyType(b2_staticBody);
     prop->setDensity(1.0f);
     prop->setFriction(0.3f);
@@ -268,19 +317,38 @@ void ProceedView::drawProp(PropType type,cocos2d::CCPoint pos){
 
 void ProceedView::drawBarrier(BarrierType type,cocos2d::CCPoint pos){
     const char* barrierName = NULL;
-    if (type == Barrier_Gear) barrierName = "gear1.png";
+    if (type == Barrier_Gear)   barrierName = "gear1.png";
+    if (type == Barrier_Step)   barrierName = "step1.png";
+    if (type == Barrier_Stab)   barrierName = "stab.png";
+    if (type == Barrier_Stone)  barrierName = "stone.png";
+    if (type == Barrier_Rocket) barrierName = "gear1.png";
     
-    CCAssert(barrierName != NULL, "faile to get barrier file Name!");
+    CCAssert(barrierName != NULL, "fail to get barrier file Name!");
     
     Barrier* barrier = Barrier::instance(barrierName);
     barrier->setPosition(pos);
+    barrier->setBarrierType(type);
     barrier->setScale(1.5f);
+    barrier->setBoxRect(CCSizeMake(barrier->getContentSize().width/(PTM_RADIO * 1.5),
+                                   barrier->getContentSize().height/(PTM_RADIO * 1.5)));
     barrier->setBodyType(b2_staticBody);
     barrier->setDensity(1.0f);
     barrier->setFriction(0.3f);
     this->addChild(barrier);
     this->createBodyRect(barrier);
     GameLogic::Singleton()->pushObject(barrier);
+}
+
+void ProceedView::drawPropToBox(PropType ty){
+    for (int i = 0; i < 3; i++) {
+        //不为空
+        if (propBox[i]->getType() != Prop_None) {
+            continue;
+        }
+        
+        propBox[i]->drawElementFromType(ty);
+        break;
+    }
 }
 
 #if GLESDEBUG_DRAW_ENABLE
@@ -293,9 +361,27 @@ void ProceedView::draw(){
     
     _world->DrawDebugData();
     
+    this->drawCollisionBox();
+    
     kmGLPopMatrix();
     
 }
+
+void ProceedView::drawCollisionBox(){
+    CCArray* objects = GameLogic::Singleton()->getObjects();
+    if (objects && objects->count() > 0) {
+        for (int i = 0; i < objects->count(); i++) {
+            GameObject* obj = dynamic_cast<GameObject*>(objects->objectAtIndex(i));
+            ccDrawColor4B(0, 0, 255, 255);
+            glLineWidth(3);
+            ccDrawRect(ccp(obj->getBodyPosition().x - obj->getContentSize().width/2 * (obj->getScale() - 0.5),
+                           obj->getBodyPosition().y - obj->getContentSize().height/2 * (obj->getScale() - 0.5)),
+                       ccp(obj->getBodyPosition().x + obj->getContentSize().width/2 * (obj->getScale() - 0.5),
+                           obj->getBodyPosition().y + obj->getContentSize().height/2 * (obj->getScale() - 0.5)));
+        }
+    }
+}
+
 #endif
 
 #pragma mark -

@@ -12,13 +12,13 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 
-using namespace cocos2d;
-
 class Props : public GameObject{
 public:
     static Props* instance(const char* file);
     virtual bool inits(const char* file);
     virtual void onCollisionEnter(GameObject* collision);
+private:
+    CC_SYNTHESIZE(PropType, _propType, PropType);
 };
 
 #endif /* defined(__BlackWhiteRush__Props__) */
