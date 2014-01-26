@@ -57,7 +57,7 @@ bool ProceedView::init(){
     
     //分数
     scoreStr = CCLabelAtlas::create("000000", "num_b.png", 32, 32, '0');
-    scoreStr->setPosition(ccp(80,winSize.height - scoreStr->getContentSize().height * 2));
+    scoreStr->setPosition(ccp(80,winSize.height - scoreStr->getContentSize().height * 2.5));
     this->addChild(scoreStr);
     
     //底部陆地
@@ -78,7 +78,7 @@ bool ProceedView::init(){
     //血条
     CCSprite* bloodBg = CCSprite::createWithSpriteFrameName("bloodBg.png");
     bloodBg->setPosition(ccp(scoreStr->getPosition().x + 500,
-                             winSize.height - bloodBg->getContentSize().height/2 - 10));
+                             winSize.height - bloodBg->getContentSize().height/2 - 30));
     this->addChild(bloodBg);
     
     CCSprite* spriteFrame = CCSprite::createWithSpriteFrameName("blood.png");
@@ -90,6 +90,12 @@ bool ProceedView::init(){
     bloodProgress->setPercentage(100.0f);
     
     this->addChild(bloodProgress);
+    
+    //倒数数字
+    startReciprocal = CCLabelBMFont::create("3","ballpark-32-hd.fnt");
+    startReciprocal->setPosition(ccp(winSize.width/2, winSize.height/2));
+    startReciprocal->setScale(2.5f);
+    this->addChild(startReciprocal);
     
     return true;
 }
@@ -231,6 +237,8 @@ void ProceedView::updateFever(){
 }
 
 void ProceedView::updateBlood(float percentage){
+    //CCProgressFromTo* action = CCProgressFromTo::create(0.5f,bloodProgress->getPercentage(),percentage);
+    //bloodProgress->runAction(action);
     bloodProgress->setPercentage(percentage);
 }
 

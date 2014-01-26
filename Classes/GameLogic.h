@@ -31,7 +31,7 @@ enum GameModel {
 enum GameState {
     State_Playing, //进行
     State_Pause,   //暂停
-    State_Start,   //开始(游戏开始倒数)
+    State_Start,   //开始
     State_End      //结束
 };
 
@@ -74,6 +74,7 @@ private:
     
     float deltaTime;
     float curDeltaTime;
+    int reciprocalTime;//时间倒数
     
     CC_SYNTHESIZE_READONLY(CCArray*, _objects, Objects);
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);

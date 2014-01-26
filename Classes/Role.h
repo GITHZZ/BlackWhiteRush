@@ -39,6 +39,7 @@ public:
     void jumpAction();
     void skillAction(SkillState sk);
     
+    void bruiseFunc();
 private:
     float actionCurTime;
     float deltaTime;

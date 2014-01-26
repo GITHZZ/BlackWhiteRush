@@ -78,6 +78,7 @@ public:
     void removePausePanel();
     void addPauseShade();//暂停用添加遮罩
     void removePauseShade();
+
 private:    
     b2World* _world;
     CCRect _visibleSize;
@@ -85,6 +86,8 @@ private:
     
     CCLabelAtlas* scoreStr;
     PropBox* propBox[3];//道具箱
+    
+    CC_SYNTHESIZE(CCLabelBMFont*, startReciprocal, Reciprocal);
     
     CC_SYNTHESIZE_READONLY(Role*,role,Role);
     CC_SYNTHESIZE_READONLY(CCProgressTimer*,feverProgress,Progress);

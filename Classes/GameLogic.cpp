@@ -40,8 +40,8 @@ void GameLogic::end(){
 }
 
 void GameLogic::init(){
-    _state = State_Playing;
-    //_state = State_Start;
+    //_state = State_Playing;
+    _state = State_Start;
     _currentModel = Model_Single;
     
     _proceedview = NULL;
@@ -63,10 +63,11 @@ void GameLogic::init(){
     deltaTime = 1.0f;//1S
     curDeltaTime = 0.0f;
     
+    reciprocalTime = 3;
+    
     //初始化血量
     _blood = 100;//100%
     
-   
     /*获取计时器*/
     _pScheduler = CCDirector::sharedDirector()->getScheduler();
     CC_SAFE_RETAIN(_pScheduler);
@@ -85,6 +86,20 @@ void GameLogic::update(float dt){
             _proceedview->update(dt);
             //移动背景,障碍物和道具
             this->moveGameObject(dt);
+            _proceedview->addPauseShade();
+            //时间倒数
+            curDeltaTime += dt;
+            if (curDeltaTime >= deltaTime) {
+                reciprocalTime --;
+                if (reciprocalTime == 0) {
+                    _state = State_Playing;
+                    _proceedview->removeChild(_proceedview->getReciprocal(), false);
+                    return;
+                }
+                CCString* str = CCString::createWithFormat("%d",reciprocalTime);
+                _proceedview->getReciprocal()->setString(str->getCString());
+                curDeltaTime = 0.0f;
+            }
         }
             break;
         case State_Playing:{
@@ -237,11 +252,12 @@ void GameLogic::updateScore(){
 }
 
 void GameLogic::updateBlood(){
-    if (_blood < 100) {
-        _blood += 0.05;//如果小于100就不断的增加
-    }
     if (_blood >= 100) {
+        _blood = 100;
         return;
+    }
+    if (_blood < 100) {
+        _blood += 0.02;//如果小于100就不断的增加 2%
     }
     _proceedview->updateBlood(_blood);
 }
@@ -279,8 +295,10 @@ void GameLogic::collisionListener(){
                     GameObject* unRoleObj = dynamic_cast<GameObject*>(_objects->objectAtIndex(j));
                     
                     if (unRoleObj->getObjType() != Object_Role &&
-                        unRoleObj->getObjType() != Object_Background) {//道具或者障碍物
+                        unRoleObj->getObjType() != Object_Background) {
+                        //道具或者障碍物,只检测最前面那个元素
                         arr_obj->checkCollision(unRoleObj);
+                        break;
                     }
                 }
             }

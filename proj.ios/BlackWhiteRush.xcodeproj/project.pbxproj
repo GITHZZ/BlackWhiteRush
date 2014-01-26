@@ -240,6 +240,15 @@
 		CE069433188237D4005A9403 /* GameEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE069431188237D4005A9403 /* GameEmitter.cpp */; };
 		CE12392F18714CCA00DBFCB9 /* Props.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE12392D18714CCA00DBFCB9 /* Props.cpp */; };
 		CE1486851871081C00AB35F9 /* Role.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE1486831871081C00AB35F9 /* Role.cpp */; };
+		CE258CF71892424E007FF8A8 /* Teleport.png in Resources */ = {isa = PBXBuildFile; fileRef = CE258CF31892424E007FF8A8 /* Teleport.png */; };
+		CE258CF81892424E007FF8A8 /* Teleport.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE258CF41892424E007FF8A8 /* Teleport.plist */; };
+		CE258CF91892424E007FF8A8 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = CE258CF51892424E007FF8A8 /* splash.png */; };
+		CE258CFA1892424E007FF8A8 /* splash.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE258CF61892424E007FF8A8 /* splash.plist */; };
+		CE258CFD189263C7007FF8A8 /* Sprint.png in Resources */ = {isa = PBXBuildFile; fileRef = CE258CFB189263C7007FF8A8 /* Sprint.png */; };
+		CE258CFE189263C7007FF8A8 /* Sprint.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE258CFC189263C7007FF8A8 /* Sprint.plist */; };
+		CE258D0118926AA6007FF8A8 /* SingleBgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */; };
+		CE3415B41891FBEE00F152DD /* StarParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE3415B21891FBEE00F152DD /* StarParticle.plist */; };
+		CE3415B51891FBEE00F152DD /* StarParticle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3415B31891FBEE00F152DD /* StarParticle.png */; };
 		CE37F3B418910ADE003926E1 /* gElement.png in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B218910ADE003926E1 /* gElement.png */; };
 		CE37F3B518910ADE003926E1 /* gElement.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B318910ADE003926E1 /* gElement.plist */; };
 		CE3E04C5187A40DD004D8AAF /* TPCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */; };
@@ -254,6 +263,9 @@
 		CE754D48187172F4000B645F /* BackDrop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE754D46187172F4000B645F /* BackDrop.cpp */; };
 		CEE4D182188CF81900A44030 /* PropBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEE4D180188CF81900A44030 /* PropBox.cpp */; };
 		CEFC48BF18715324009CE020 /* Barrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC48BD18715324009CE020 /* Barrier.cpp */; };
+		CEFCA8A01891128F00B43426 /* ballpark-32-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFCA89E1891128F00B43426 /* ballpark-32-hd.png */; };
+		CEFCA8A11891128F00B43426 /* ballpark-32-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = CEFCA89F1891128F00B43426 /* ballpark-32-hd.fnt */; };
+		CEFCA8A41891364900B43426 /* StartScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFCA8A21891364900B43426 /* StartScene.cpp */; };
 		D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41A0AD0160F154A004552AE /* Default-568h@2x.png */; };
 		D446FD6E16102124000ADA7B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D446FD6D16102124000ADA7B /* Default@2x.png */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
@@ -754,6 +766,15 @@
 		CE12392E18714CCA00DBFCB9 /* Props.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Props.h; path = ../Classes/Props.h; sourceTree = "<group>"; };
 		CE1486831871081C00AB35F9 /* Role.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Role.cpp; path = ../Classes/Role.cpp; sourceTree = "<group>"; };
 		CE1486841871081C00AB35F9 /* Role.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Role.h; path = ../Classes/Role.h; sourceTree = "<group>"; };
+		CE258CF31892424E007FF8A8 /* Teleport.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Teleport.png; sourceTree = "<group>"; };
+		CE258CF41892424E007FF8A8 /* Teleport.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Teleport.plist; sourceTree = "<group>"; };
+		CE258CF51892424E007FF8A8 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash.png; sourceTree = "<group>"; };
+		CE258CF61892424E007FF8A8 /* splash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = splash.plist; sourceTree = "<group>"; };
+		CE258CFB189263C7007FF8A8 /* Sprint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sprint.png; sourceTree = "<group>"; };
+		CE258CFC189263C7007FF8A8 /* Sprint.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sprint.plist; sourceTree = "<group>"; };
+		CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingleBgMusic.mp3; sourceTree = "<group>"; };
+		CE3415B21891FBEE00F152DD /* StarParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StarParticle.plist; sourceTree = "<group>"; };
+		CE3415B31891FBEE00F152DD /* StarParticle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarParticle.png; sourceTree = "<group>"; };
 		CE37F3B218910ADE003926E1 /* gElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gElement.png; sourceTree = "<group>"; };
 		CE37F3B318910ADE003926E1 /* gElement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gElement.plist; sourceTree = "<group>"; };
 		CE3E04C2187A40DD004D8AAF /* Sealed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sealed.h; sourceTree = "<group>"; };
@@ -780,6 +801,10 @@
 		CEE4D181188CF81900A44030 /* PropBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropBox.h; path = ../Classes/PropBox.h; sourceTree = "<group>"; };
 		CEFC48BD18715324009CE020 /* Barrier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Barrier.cpp; path = ../Classes/Barrier.cpp; sourceTree = "<group>"; };
 		CEFC48BE18715324009CE020 /* Barrier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Barrier.h; path = ../Classes/Barrier.h; sourceTree = "<group>"; };
+		CEFCA89E1891128F00B43426 /* ballpark-32-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ballpark-32-hd.png"; sourceTree = "<group>"; };
+		CEFCA89F1891128F00B43426 /* ballpark-32-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ballpark-32-hd.fnt"; sourceTree = "<group>"; };
+		CEFCA8A21891364900B43426 /* StartScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StartScene.cpp; path = ../Classes/StartScene.cpp; sourceTree = "<group>"; };
+		CEFCA8A31891364900B43426 /* StartScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartScene.h; path = ../Classes/StartScene.h; sourceTree = "<group>"; };
 		D41A0AD0160F154A004552AE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../proj.ios/Default-568h@2x.png"; sourceTree = "<group>"; };
 		D446FD6D16102124000ADA7B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../proj.ios/Default@2x.png"; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -1313,6 +1338,8 @@
 				CE3E04C1187A40DD004D8AAF /* curl */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
+				CEFCA8A21891364900B43426 /* StartScene.cpp */,
+				CEFCA8A31891364900B43426 /* StartScene.h */,
 				CE72773B186FC527005AB35E /* ProceedScene.cpp */,
 				CE72773C186FC527005AB35E /* ProceedScene.h */,
 				CE72773E186FC5F1005AB35E /* ProceedView.cpp */,
@@ -1785,6 +1812,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CE258CFF18926964007FF8A8 /* GameSound */,
 				CE447634187AAC12004E68AD /* GameImage */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
@@ -1801,6 +1829,29 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
+		CE258CFF18926964007FF8A8 /* GameSound */ = {
+			isa = PBXGroup;
+			children = (
+				CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */,
+			);
+			path = GameSound;
+			sourceTree = "<group>";
+		};
+		CE3415B11891FBEE00F152DD /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				CE258CFB189263C7007FF8A8 /* Sprint.png */,
+				CE258CFC189263C7007FF8A8 /* Sprint.plist */,
+				CE258CF31892424E007FF8A8 /* Teleport.png */,
+				CE258CF41892424E007FF8A8 /* Teleport.plist */,
+				CE258CF51892424E007FF8A8 /* splash.png */,
+				CE258CF61892424E007FF8A8 /* splash.plist */,
+				CE3415B21891FBEE00F152DD /* StarParticle.plist */,
+				CE3415B31891FBEE00F152DD /* StarParticle.png */,
+			);
+			path = Particles;
+			sourceTree = "<group>";
+		};
 		CE3E04C1187A40DD004D8AAF /* curl */ = {
 			isa = PBXGroup;
 			children = (
@@ -1815,6 +1866,9 @@
 		CE447634187AAC12004E68AD /* GameImage */ = {
 			isa = PBXGroup;
 			children = (
+				CE3415B11891FBEE00F152DD /* Particles */,
+				CEFCA89E1891128F00B43426 /* ballpark-32-hd.png */,
+				CEFCA89F1891128F00B43426 /* ballpark-32-hd.fnt */,
 				CE37F3B218910ADE003926E1 /* gElement.png */,
 				CE37F3B318910ADE003926E1 /* gElement.plist */,
 				CE447635187AAC12004E68AD /* num_b.png */,
@@ -1895,16 +1949,27 @@
 				7855E0E1153FEF240059DD9A /* Default.png in Resources */,
 				D4EF949A15BD2D8B00D803EB /* Icon-57.png in Resources */,
 				D4EF949C15BD2D8E00D803EB /* Icon-114.png in Resources */,
+				CEFCA8A11891128F00B43426 /* ballpark-32-hd.fnt in Resources */,
+				CE258CFD189263C7007FF8A8 /* Sprint.png in Resources */,
+				CE258CFA1892424E007FF8A8 /* splash.plist in Resources */,
+				CE3415B51891FBEE00F152DD /* StarParticle.png in Resources */,
 				D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */,
 				CE37F3B518910ADE003926E1 /* gElement.plist in Resources */,
 				D4EF94A015BD2D9800D803EB /* Icon-144.png in Resources */,
+				CE258CF91892424E007FF8A8 /* splash.png in Resources */,
 				D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */,
+				CE258CF71892424E007FF8A8 /* Teleport.png in Resources */,
 				D446FD6E16102124000ADA7B /* Default@2x.png in Resources */,
 				CE37F3B418910ADE003926E1 /* gElement.png in Resources */,
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
+				CE258CFE189263C7007FF8A8 /* Sprint.plist in Resources */,
+				CE258D0118926AA6007FF8A8 /* SingleBgMusic.mp3 in Resources */,
+				CE258CF81892424E007FF8A8 /* Teleport.plist in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
+				CEFCA8A01891128F00B43426 /* ballpark-32-hd.png in Resources */,
+				CE3415B41891FBEE00F152DD /* StarParticle.plist in Resources */,
 				379BB9CC17F03F3700829B88 /* json_internalarray.inl in Resources */,
 				379BB9CD17F03F3700829B88 /* json_internalmap.inl in Resources */,
 				379BB9D017F03F3700829B88 /* json_valueiterator.inl in Resources */,
@@ -1962,6 +2027,7 @@
 				15A3D9251682F7D5002FB0C5 /* b2PrismaticJoint.cpp in Sources */,
 				15A3D9261682F7D5002FB0C5 /* b2PulleyJoint.cpp in Sources */,
 				15A3D9271682F7D5002FB0C5 /* b2RevoluteJoint.cpp in Sources */,
+				CEFCA8A41891364900B43426 /* StartScene.cpp in Sources */,
 				15A3D9281682F7D5002FB0C5 /* b2RopeJoint.cpp in Sources */,
 				15A3D9291682F7D5002FB0C5 /* b2WeldJoint.cpp in Sources */,
 				15A3D92A1682F7D5002FB0C5 /* b2WheelJoint.cpp in Sources */,

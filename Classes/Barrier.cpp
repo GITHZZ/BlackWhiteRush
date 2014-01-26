@@ -26,7 +26,7 @@ bool Barrier::inits(const char *file){
     
     _objType = Object_Block;
     _barrierType = Barrier_None;
-    _speed = 150;
+    _speed = 200;
     _boxRect = CCSizeMake(0.5f, 0.5f);
     
     return true;
