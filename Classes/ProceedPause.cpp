@@ -8,6 +8,9 @@
 
 #include "ProceedPause.h"
 #include "ProceedScene.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 ProceedPause::~ProceedPause(){
     
@@ -54,22 +57,26 @@ CCMenuItemSprite* ProceedPause::instanceButton(const char *unselected, const cha
 
 void ProceedPause::backBtnFunc(){
     if (GameLogic::Singleton()->getState() == State_Pause) {
+        SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
         GameLogic::Singleton()->setState(State_Playing);
     }
 }
 
 void ProceedPause::homeBtnFunc(){
+    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
     //CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFrameByName("gElement.plist");
+    GameLogic::Singleton()->end();
 }
 
 void ProceedPause::musicBtnFunc(){
-    
+    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
 }
 
 void ProceedPause::restartBtnFunc(){
+    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
     
     GameLogic::Singleton()->end();
     
     CCDirector::sharedDirector()->purgeCachedData();
-    CCDirector::sharedDirector()->replaceScene(ProceedScene::create());
+    CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(2.5f, ProceedScene::create()));
 }

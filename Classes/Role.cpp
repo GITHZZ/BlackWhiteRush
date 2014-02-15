@@ -8,6 +8,9 @@
 
 #include "Role.h"
 #include "ProceedView.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 Role* Role::instance(const char* file){
     Role *role = new Role();
@@ -28,16 +31,17 @@ bool Role::inits(const char* file){
     _objType = Object_Role;
     _speed = 100;
     _rState = Role_Move;
+    _jState = Jump_None;
     _skState = Skill_None;
     _isTrigger = true;
     _boxRect = CCSizeMake(0.5,0.5);
     _standardPoint = ccp(150, 300);
-    
+    _groundIndex = -1;
     return true;
 }
 
 void Role::onCollisionEnter(GameObject* collision){
-    CCLOG("++===============Collision Enter======================++");
+    //CCLOG("++===============Collision Enter======================++");
     //如果撞到障碍物 就把Fever状态设计成enable
     if (collision->getObjType() == Object_Block && _rState != Role_Bruise) {//障碍物
         Barrier* barrier = dynamic_cast<Barrier*>(collision);
@@ -49,8 +53,13 @@ void Role::onCollisionEnter(GameObject* collision){
                 _rState = Role_Bruise;
                 float bloodValue = GameLogic::Singleton()->getBlood();
                 GameLogic::Singleton()->setBlood(bloodValue -= bloodValue * 0.3);//30%
+                
+                b2Filter fliter;
+                fliter.groupIndex = -2;
+                _pB2Body->GetFixtureList()->SetFilterData(fliter);
+  
                 CCCallFunc* callFunc = CCCallFunc::create(this, callfunc_selector(Role::bruiseFunc));
-                this->runAction(CCSequence::create(CCRepeat::create(CCFadeIn::create(0.3f),3.0f),callFunc));
+                this->runAction(CCSequence::create(CCBlink::create(2.0f,8),callFunc));
             }
                 break;
             case Barrier_Step:
@@ -88,6 +97,9 @@ void Role::onCollisionEnter(GameObject* collision){
 
 void Role::bruiseFunc(){
     _rState = Role_Move;
+    b2Filter fliter;
+    fliter.groupIndex = -1;
+    _pB2Body->GetFixtureList()->SetFilterData(fliter);
 }
 
 void Role::update(float dt){
@@ -109,6 +121,7 @@ void Role::skillAction(SkillState sk){
     switch (sk) {
         case Skill_Blood:{
             CCParticleSystem* particle = CCParticleSystemQuad::create("Teleport.plist");
+            particle->setStartColor(ccc4f(0.5, 0.5, 0.5, 1));
             particle->setPosition(this->getBodyPosition());
             GameLogic::Singleton()->getPView()->addChild(particle);
             
@@ -127,41 +140,81 @@ void Role::skillAction(SkillState sk){
             CCLOG("+=================Sprint Skill Open===============+");
         }
             break;
-        case Skill_Wave:
+        case Skill_Wave:{
+            this->deleteObjectsInWave();
+            CCSprite* waveSpr = CCSprite::createWithSpriteFrameName("Wave.png");
+            waveSpr->setScale(0.1f);
+            waveSpr->setPosition(ccp(15, 15));
+            CCSpawn* spawnAction = CCSpawn::create(CCScaleTo::create(0.5f, 1.5f),
+                                                   CCFadeOut::create(0.5f),
+                                                   NULL);
+            CCSequence* sequceceAction = CCSequence::create(spawnAction,
+                                                            CCCallFuncND::create(this, callfuncND_selector(Role::waveFunc),this),
+                                                            NULL);
+            CCSpeed* aSpeed = CCSpeed::create(sequceceAction, 2.5f);
+            waveSpr->runAction(aSpeed);
+            this->addChild(waveSpr,99,Wave_Tag);
             
             CCLOG("+=================Wave Skill Open===============+");
+        }
             break;
         default:
             break;
     }
 }
 
+void Role::deleteObjectsInWave(){
+    CCArray* objects = GameLogic::Singleton()->getObjects();
+    CCArray* tempObj = objects;
+    CCObject* obj;
+    
+    CCARRAY_FOREACH(tempObj, obj){
+        GameObject* g_obj = dynamic_cast<GameObject*>(obj);
+        if (g_obj->getObjType() == Object_Block) {
+            //计算两点距离
+            float distance = ccpDistance(this->getBodyPosition(),g_obj->getBodyPosition());
+            if (distance <= 180) {
+                GameLogic::Singleton()->getPView()->removeChild(g_obj);
+                GameLogic::Singleton()->getPView()->destroyBody(g_obj);
+                GameLogic::Singleton()->deleteObject(g_obj);
+            }
+        }
+    }
+}
+
+void Role::waveFunc(CCObject* sender,void* data){
+    CCSprite* spr = (CCSprite*)data;
+    spr->removeChildByTag(Wave_Tag, true);
+}
+
 void Role::jumpAction(){
-    if (_rState == Role_JumpOnce) {
+    if (_jState == Jump_Once) {
         _pB2Body->ApplyLinearImpulse(b2Vec2(0,8),_pB2Body->GetPosition());
-        _rState = Role_JumpingOnce;
+        _jState = Jumping_Once;
+        //SimpleAudioEngine::sharedEngine()->playEffect("jump.mp3");
     }
-    if (_rState == Role_JumpSecond) {
+    if (_jState == Jump_Second) {
         _pB2Body->ApplyLinearImpulse(b2Vec2(0,7),_pB2Body->GetPosition());
-        _rState = Role_JumpingSecond;
+        _jState = Jumping_Second;
+        //SimpleAudioEngine::sharedEngine()->playEffect("jump.mp3");
     }
-    if (_rState == Role_JumpingSecond &&
+    if (_jState == Jumping_Second &&
         _pB2Body->GetPosition().y * _ptmRadio <= this->getContentSize().height + SUB_HEIGHT &&
         _pB2Body->GetLinearVelocity().y <= 0) {
         //接触地面就变回Role_Move状态
-        _rState = Role_Move;
+        _jState = Jump_None;
         //旋转角度复原
         this->setBodyRotation(0);
     }
-    if (_rState == Role_JumpingOnce &&
+    if (_jState == Jumping_Once &&
         _pB2Body->GetPosition().y * _ptmRadio <= this->getContentSize().height + SUB_HEIGHT &&
         _pB2Body->GetLinearVelocity().y <= 0) {
         //接触地面就变回Role_Move状态
-        _rState = Role_Move;
+        _jState = Jump_None;
         //旋转角度复原
         this->setBodyRotation(0);
     }
-    if (_rState != Role_Move && _rState != Role_Death) {
+    if ( _rState != Role_Death && _jState != Jump_None) {
         float newAngle = CC_RADIANS_TO_DEGREES((CC_DEGREES_TO_RADIANS(_pB2Body->GetAngle()) - 0.001f));
         _pB2Body->SetTransform(_pB2Body->GetPosition(), newAngle);
     }

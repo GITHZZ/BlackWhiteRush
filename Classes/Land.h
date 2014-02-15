@@ -16,7 +16,6 @@ class Land : public GameObject{
 public:
     static Land* instance(const char* file);
     virtual bool inits(const char* file);
-    virtual void onCollisionEnter(GameObject* collision);
 };
 
 #endif /* defined(__BlackWhiteRush__Land__) */

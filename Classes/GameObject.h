@@ -41,7 +41,7 @@ enum PropType {
 class GameObject : public CCSprite{
 public:
     virtual bool init();
-    virtual void onCollisionEnter(GameObject* collision) = 0;
+    virtual void onCollisionEnter(GameObject* collision){};
     virtual CCAffineTransform nodeToParentTransform();
     
     void setB2Body(b2Body* body);

@@ -6,8 +6,17 @@
 //
 //
 
+/*
+    Multiple : base 30 += 10 * click time 
+    
+               max <= 80
+ */
+
 #include "GameLogic.h"
 #include "ProceedView.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 GameLogic* GameLogic::_singletonObject = NULL;
 
@@ -63,7 +72,10 @@ void GameLogic::init(){
     deltaTime = 1.0f;//1S
     curDeltaTime = 0.0f;
     
-    reciprocalTime = 3;
+    reciprocalTime = 4;
+    
+    //初始化游戏时间
+    _gameTime = 0.0f;
     
     //初始化血量
     _blood = 100;//100%
@@ -85,13 +97,15 @@ void GameLogic::update(float dt){
             //通知ProcceedView进行box2D更新
             _proceedview->update(dt);
             //移动背景,障碍物和道具
-            this->moveGameObject(dt);
+            this->objectsActionFromTraverse(dt);
+            
             _proceedview->addPauseShade();
             //时间倒数
             curDeltaTime += dt;
             if (curDeltaTime >= deltaTime) {
                 reciprocalTime --;
                 if (reciprocalTime == 0) {
+                    //SimpleAudioEngine::sharedEngine()->playBackgroundMusic("SingleBgMusic.mp3");
                     _state = State_Playing;
                     _proceedview->removeChild(_proceedview->getReciprocal(), false);
                     return;
@@ -107,7 +121,7 @@ void GameLogic::update(float dt){
                 //网络连接
             }
             //移动背景,障碍物和道具
-            this->moveGameObject(dt);
+            this->objectsActionFromTraverse(dt);
             //游戏进行状态,主要是场景循环,玩家可以运动和道具加障碍物的产生,Fever逻辑,分数
             //通知ProcceedView进行box2D更新
             _proceedview->update(dt);
@@ -124,6 +138,9 @@ void GameLogic::update(float dt){
                 //如果状态是不可按下就设成为可以按下
                 if (_feverState == Fever_unable) _feverState = Fever_enable;
                 if (_feverState == Fever_doing) {
+                    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+                        SimpleAudioEngine::sharedEngine()->playEffect("ingame_fever_1.mp3");
+                    
                     _proceedview->getProgress()->setPercentage(0);
                     _multiple += 10;
                 }
@@ -132,14 +149,17 @@ void GameLogic::update(float dt){
             this->updateScore();
             //更新血量
             this->updateBlood();
-            //碰撞检测监听事件
-            this->collisionListener();
-            //更新背景
+            //更新游戏时间
+            _gameTime += dt;
             //产生障碍物,道具 间隔时间 1S 产生
             curDeltaTime += dt;
             if (curDeltaTime >= deltaTime) {
                 this->getDataFromEmitter();
                 curDeltaTime = 0.0f;
+            }
+            //判断游戏结束条件
+            if (_blood <= 3.0f) {
+                _state = State_End;
             }
         }
             break;
@@ -153,6 +173,7 @@ void GameLogic::update(float dt){
         case State_End:{
             //游戏结束,弹出结果,分数.上传分数
             //如果是多人游戏,就是列出分数并且选出最高分
+            CCLOG("+================Game End========================+");
         }
             break;
         default:
@@ -160,57 +181,67 @@ void GameLogic::update(float dt){
     }
 }
 
-void GameLogic::moveGameObject(float dt){
-    for (int i = 0; i < _objects->count(); i++) {
-        GameObject *obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(i));
-        //如果是主角不用移动
-        if (obj->getObjType() == Object_Role) continue;
-        if (obj->getObjType() == Object_Block){
-            Barrier* bar = dynamic_cast<Barrier*>(obj);
-            bar->barrierAction();
+void GameLogic::objectsActionFromTraverse(float dt){
+    if (_objects && _objects->count() > 0) {
+        for (int i = 0; i < _objects->count(); i++) {
+            if (_state == State_Playing) {
+                this->collisionListener(i);
+            }
+            this->moveGameObject(dt, i);
         }
+    }
+}
+
+void GameLogic::moveGameObject(float dt,int index){
+    GameObject *obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(index));
+    //如果是主角不用移动
+    if (obj->getObjType() == Object_Role) return;
             
-        obj->setBodyPosition(ccp(obj->getBodyPosition().x - obj->getSpeed() * dt, obj->getBodyPosition().y));
+    obj->setBodyPosition(ccp(obj->getBodyPosition().x - obj->getSpeed() * dt, obj->getBodyPosition().y));
+    
+    if (obj->getObjType() == Object_Block){
+        Barrier* bar = dynamic_cast<Barrier*>(obj);
+        bar->barrierAction();
+    }
+    
+    //如果是背景对象而且位置已经超过了就删除并且添加新的
+    if (obj->getObjType() == Object_Background &&
+        obj->getBodyPosition().x <= -obj->getContentSize().width) {
+        CCLOG("++++++++++remove background+++++++++++++++");
         
-        //如果是背景对象而且位置已经超过了就删除并且添加新的
-        if (obj->getObjType() == Object_Background &&
-            obj->getBodyPosition().x <= -obj->getContentSize().width) {
-            CCLOG("++++++++++remove background+++++++++++++++");
-            
-            GameObject *lastObj = this->popObjectFromType(Object_Background);
-            
-            _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(),
+        GameObject *lastObj = this->popObjectFromType(Object_Background);
+        
+        _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(),
                                              lastObj->getBodyPosition().y));
 
-            _proceedview->removeChild(obj);
-            _proceedview->destroyBody(obj);
-            this->deleteObject(obj);
+        _proceedview->removeChild(obj);
+        _proceedview->destroyBody(obj);
+        this->deleteObject(obj);
 
-            continue;
-        }
+        return;
+    }
         
-        //陆地地面
-        if (obj->getObjType() == Object_Land &&
-            obj->getBodyPosition().x <= -obj->getContentSize().width) {
-            CCLOG("+++++++++++++remove land++++++++++++++++++++++");
+    //陆地地面
+    if (obj->getObjType() == Object_Land &&
+        obj->getBodyPosition().x <= -obj->getContentSize().width) {
+        CCLOG("+++++++++++++remove land++++++++++++++++++++++");
             
-            GameObject *lastObj = this->popObjectFromType(Object_Land);
+        GameObject *lastObj = this->popObjectFromType(Object_Land);
             
-            _proceedview->drawLand(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(), lastObj->getBodyPosition().y));
-            _proceedview->removeChild(obj);
-            _proceedview->destroyBody(obj);
-            this->deleteObject(obj);
+        _proceedview->drawLand(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(), lastObj->getBodyPosition().y));
+        _proceedview->removeChild(obj);
+        _proceedview->destroyBody(obj);
+        this->deleteObject(obj);
             
-            continue;
-        }
+        return;
+    }
         
-        //如果是非背景和非主角
-        if (obj->getBodyPosition().x <= -obj->getContentSize().width) {
-            CCLOG("++++++++++++++++remove game object++++++++++++++++");
-            _proceedview->removeChild(obj);
-            _proceedview->destroyBody(obj);
-            this->deleteObject(obj);
-        }
+    //如果是非背景和非主角
+    if (obj->getBodyPosition().x <= -obj->getContentSize().width) {
+        CCLOG("++++++++++++++++remove game object++++++++++++++++");
+        _proceedview->removeChild(obj);
+        _proceedview->destroyBody(obj);
+        this->deleteObject(obj);
     }
 }
 
@@ -284,23 +315,27 @@ GameObject* GameLogic::popObjectFromType(ObjectType t){
     return NULL;
 }
 
-void GameLogic::collisionListener(){
-    if (_objects && _objects->count() > 0) {
-        for (int i = 0; i < _objects->count(); i++) {
-            GameObject* arr_obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(i));
+void GameLogic::collisionListener(int index){
+    GameObject* arr_obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(index));
             
-            if (arr_obj->getIsTrigger()) {//是否为触发者
-                for (int j = 0; j < _objects->count(); j++) {
+    if (arr_obj->getIsTrigger()) {//是否为触发者
+        for (int j = 0; j < _objects->count(); j++) {
                     
-                    GameObject* unRoleObj = dynamic_cast<GameObject*>(_objects->objectAtIndex(j));
-                    
-                    if (unRoleObj->getObjType() != Object_Role &&
-                        unRoleObj->getObjType() != Object_Background) {
-                        //道具或者障碍物,只检测最前面那个元素
-                        arr_obj->checkCollision(unRoleObj);
-                        break;
-                    }
-                }
+            GameObject* unRoleObj = dynamic_cast<GameObject*>(_objects->objectAtIndex(j));
+            
+            if (unRoleObj->getObjType() == Object_Land &&
+                arr_obj->getObjType() == Object_Block) {
+                
+                arr_obj->checkCollision(unRoleObj);
+                continue;
+            }
+            
+            if (unRoleObj->getObjType() != Object_Role &&
+                unRoleObj->getObjType() != Object_Background &&
+                unRoleObj->getObjType() != Object_Land) {
+                //道具或者障碍物,只检测最前面那个元素
+                    arr_obj->checkCollision(unRoleObj);
+                    //break;
             }
         }
     }

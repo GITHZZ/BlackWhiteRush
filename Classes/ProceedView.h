@@ -84,7 +84,7 @@ private:
     CCRect _visibleSize;
     GameSize _gSize;
     
-    CCLabelAtlas* scoreStr;
+    CCLabelBMFont* scoreStr;
     PropBox* propBox[3];//道具箱
     
     CC_SYNTHESIZE(CCLabelBMFont*, startReciprocal, Reciprocal);

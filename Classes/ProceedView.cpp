@@ -29,7 +29,7 @@ bool ProceedView::init(){
     //做初始渲染
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 #if GLESDEBUG_DRAW_ENABLE == 0
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         CCSpriteFrame *bgFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("bg_w.png");
         this->drawBackground(ccp(winSize.width/2 + bgFrame->getRect().size.width * 2 * i,winSize.height/2));
     }
@@ -56,8 +56,8 @@ bool ProceedView::init(){
     this->addChild(feverProgress);
     
     //分数
-    scoreStr = CCLabelAtlas::create("000000", "num_b.png", 32, 32, '0');
-    scoreStr->setPosition(ccp(80,winSize.height - scoreStr->getContentSize().height * 2.5));
+    scoreStr = CCLabelBMFont::create("000000", "ballpark-32-hd.fnt");
+    scoreStr->setPosition(ccp(200,winSize.height - scoreStr->getContentSize().height ));
     this->addChild(scoreStr);
     
     //底部陆地
@@ -77,7 +77,7 @@ bool ProceedView::init(){
     
     //血条
     CCSprite* bloodBg = CCSprite::createWithSpriteFrameName("bloodBg.png");
-    bloodBg->setPosition(ccp(scoreStr->getPosition().x + 500,
+    bloodBg->setPosition(ccp(scoreStr->getPosition().x + 400,
                              winSize.height - bloodBg->getContentSize().height/2 - 30));
     this->addChild(bloodBg);
     
@@ -195,11 +195,11 @@ void ProceedView::initVisibleSize(){
 
 void ProceedView::initGameSize(){
     _gSize.leftTop = ccp(_visibleSize.origin.x,_visibleSize.origin.y + _visibleSize.size.height);
-    _gSize.leftBottom = ccp(_visibleSize.origin.x,_visibleSize.origin.y + SUB_HEIGHT);
+    _gSize.leftBottom = ccp(_visibleSize.origin.x,_visibleSize.origin.y);
     _gSize.rightTop = ccp(_visibleSize.origin.x + _visibleSize.size.width,
                           _visibleSize.origin.y + _visibleSize.size.height);
     _gSize.rightBottom = ccp(_visibleSize.origin.x + _visibleSize.size.width,
-                             _visibleSize.origin.y + SUB_HEIGHT );
+                             _visibleSize.origin.y);
     CCLOG("+===game==size====leftTop(%f,%f)===leftBottom(%f,%f)===rightTop(%f,%f)==rightBottom(%f,%f)++",
           _gSize.leftTop.x,_gSize.leftTop.y,_gSize.leftBottom.x,_gSize.leftBottom.y,
           _gSize.rightTop.x,_gSize.rightTop.y,_gSize.rightBottom.x,_gSize.rightBottom.y);
@@ -216,17 +216,17 @@ void ProceedView::updateScore(){
     
     CCString *scoreLabel;
     if (score >= 100000) {
-        scoreLabel = CCString::createWithFormat("%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("%d x%d",score,multiple);
     }else if(score >= 10000){
-        scoreLabel = CCString::createWithFormat("0%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("0%d x%d",score,multiple);
     }else if(score >= 1000){
-        scoreLabel = CCString::createWithFormat("00%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("00%d x%d",score,multiple);
     }else if(score >= 100){
-        scoreLabel = CCString::createWithFormat("000%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("000%d x%d",score,multiple);
     }else if(score >= 10){
-        scoreLabel = CCString::createWithFormat("0000%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("0000%d x%d",score,multiple);
     }else if(score >= 0){
-        scoreLabel = CCString::createWithFormat("00000%d %d",score,multiple);
+        scoreLabel = CCString::createWithFormat("00000%d x%d",score,multiple);
     }
     scoreStr->setString(scoreLabel->getCString());
 }
@@ -296,11 +296,13 @@ void ProceedView::drawLand(cocos2d::CCPoint pos){
     Land* land = Land::instance("land.png");
     land->setPosition(pos);
     land->setBodyType(b2_staticBody);
+    land->setBoxRect(CCSizeMake(land->getContentSize().width/PTM_RADIO,
+                                land->getContentSize().height/PTM_RADIO));
     land->setColor(ccBLACK);
     land->setScale(1.0f);
     this->addChild(land,1);
     this->createBodyRect(land);
-    //GameLogic::Singleton()->pushObject(land);
+    GameLogic::Singleton()->pushObject(land);
 }
 
 void ProceedView::drawProp(PropType type,cocos2d::CCPoint pos){
@@ -316,8 +318,6 @@ void ProceedView::drawProp(PropType type,cocos2d::CCPoint pos){
     prop->runAction(CCRepeatForever::create(CCSequence::create(CCScaleTo::create(0.5f,1.5f),CCScaleTo::create(0.5f,1.0f),NULL)));
     prop->setPropType(type);
     prop->setBodyType(b2_staticBody);
-    prop->setDensity(1.0f);
-    prop->setFriction(0.3f);
     this->addChild(prop);
     this->createBodyRect(prop);
     GameLogic::Singleton()->pushObject(prop);
@@ -329,17 +329,26 @@ void ProceedView::drawBarrier(BarrierType type,cocos2d::CCPoint pos){
     if (type == Barrier_Step)   barrierName = "step1.png";
     if (type == Barrier_Stab)   barrierName = "stab.png";
     if (type == Barrier_Stone)  barrierName = "stone.png";
-    if (type == Barrier_Rocket) barrierName = "gear1.png";
+    if (type == Barrier_Rocket) barrierName = "triangle.png";
     
     CCAssert(barrierName != NULL, "fail to get barrier file Name!");
     
     Barrier* barrier = Barrier::instance(barrierName);
+    if (type == Barrier_Rocket) {
+        barrier->setSpeed(1000);
+    }
     barrier->setPosition(pos);
     barrier->setBarrierType(type);
-    barrier->setScale(1.5f);
-    barrier->setBoxRect(CCSizeMake(barrier->getContentSize().width/(PTM_RADIO * 1.5),
-                                   barrier->getContentSize().height/(PTM_RADIO * 1.5)));
-    barrier->setBodyType(b2_staticBody);
+    if (type != Barrier_Rocket) barrier->setScale(1.5f);
+    if (type == Barrier_Stone) {
+        //barrier->setIsTrigger(true);
+        barrier->setBodyType(b2_dynamicBody);
+        barrier->setBoxRect(CCSizeMake(0.1f, 0.1f));
+    }else{
+        barrier->setBodyType(b2_staticBody);
+        barrier->setBoxRect(CCSizeMake(barrier->getContentSize().width/(PTM_RADIO * 1.5),
+                                       barrier->getContentSize().height/(PTM_RADIO * 1.5)));
+    }
     barrier->setDensity(1.0f);
     barrier->setFriction(0.3f);
     this->addChild(barrier);

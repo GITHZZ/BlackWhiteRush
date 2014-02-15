@@ -246,11 +246,16 @@
 		CE258CFA1892424E007FF8A8 /* splash.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE258CF61892424E007FF8A8 /* splash.plist */; };
 		CE258CFD189263C7007FF8A8 /* Sprint.png in Resources */ = {isa = PBXBuildFile; fileRef = CE258CFB189263C7007FF8A8 /* Sprint.png */; };
 		CE258CFE189263C7007FF8A8 /* Sprint.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE258CFC189263C7007FF8A8 /* Sprint.plist */; };
-		CE258D0118926AA6007FF8A8 /* SingleBgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */; };
 		CE3415B41891FBEE00F152DD /* StarParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE3415B21891FBEE00F152DD /* StarParticle.plist */; };
 		CE3415B51891FBEE00F152DD /* StarParticle.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3415B31891FBEE00F152DD /* StarParticle.png */; };
 		CE37F3B418910ADE003926E1 /* gElement.png in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B218910ADE003926E1 /* gElement.png */; };
 		CE37F3B518910ADE003926E1 /* gElement.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE37F3B318910ADE003926E1 /* gElement.plist */; };
+		CE3C88851895FF6700211049 /* fever_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3C88801895FF6700211049 /* fever_end.mp3 */; };
+		CE3C88861895FF6700211049 /* fever_start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3C88811895FF6700211049 /* fever_start.mp3 */; };
+		CE3C88871895FF6700211049 /* ingame_fever_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3C88821895FF6700211049 /* ingame_fever_1.mp3 */; };
+		CE3C88881895FF6700211049 /* ingame_fever_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3C88831895FF6700211049 /* ingame_fever_2.mp3 */; };
+		CE3C88891895FF6700211049 /* SingleBgMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3C88841895FF6700211049 /* SingleBgMusic.mp3 */; };
+		CE3D4EFC18978CEA0098362B /* jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE3D4EFB18978CEA0098362B /* jump.mp3 */; };
 		CE3E04C5187A40DD004D8AAF /* TPCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */; };
 		CE447633187AAAE9004E68AD /* ProceedPause.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE447631187AAAE9004E68AD /* ProceedPause.cpp */; };
 		CE447636187AAC12004E68AD /* num_b.png in Resources */ = {isa = PBXBuildFile; fileRef = CE447635187AAC12004E68AD /* num_b.png */; };
@@ -261,6 +266,10 @@
 		CE727740186FC5F1005AB35E /* ProceedView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72773E186FC5F1005AB35E /* ProceedView.cpp */; };
 		CE727743186FC612005AB35E /* ProceedController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE727741186FC612005AB35E /* ProceedController.cpp */; };
 		CE754D48187172F4000B645F /* BackDrop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE754D46187172F4000B645F /* BackDrop.cpp */; };
+		CE86A36518A783D4006F43CD /* SingleBgMusic2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE86A36118A783D4006F43CD /* SingleBgMusic2.mp3 */; };
+		CE86A36618A783D4006F43CD /* select.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE86A36218A783D4006F43CD /* select.mp3 */; };
+		CE86A36718A783D4006F43CD /* ok.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE86A36318A783D4006F43CD /* ok.mp3 */; };
+		CE86A36818A783D4006F43CD /* cancel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE86A36418A783D4006F43CD /* cancel.mp3 */; };
 		CEE4D182188CF81900A44030 /* PropBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEE4D180188CF81900A44030 /* PropBox.cpp */; };
 		CEFC48BF18715324009CE020 /* Barrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFC48BD18715324009CE020 /* Barrier.cpp */; };
 		CEFCA8A01891128F00B43426 /* ballpark-32-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFCA89E1891128F00B43426 /* ballpark-32-hd.png */; };
@@ -772,11 +781,16 @@
 		CE258CF61892424E007FF8A8 /* splash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = splash.plist; sourceTree = "<group>"; };
 		CE258CFB189263C7007FF8A8 /* Sprint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sprint.png; sourceTree = "<group>"; };
 		CE258CFC189263C7007FF8A8 /* Sprint.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sprint.plist; sourceTree = "<group>"; };
-		CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingleBgMusic.mp3; sourceTree = "<group>"; };
 		CE3415B21891FBEE00F152DD /* StarParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StarParticle.plist; sourceTree = "<group>"; };
 		CE3415B31891FBEE00F152DD /* StarParticle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StarParticle.png; sourceTree = "<group>"; };
 		CE37F3B218910ADE003926E1 /* gElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gElement.png; sourceTree = "<group>"; };
 		CE37F3B318910ADE003926E1 /* gElement.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gElement.plist; sourceTree = "<group>"; };
+		CE3C88801895FF6700211049 /* fever_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fever_end.mp3; sourceTree = "<group>"; };
+		CE3C88811895FF6700211049 /* fever_start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fever_start.mp3; sourceTree = "<group>"; };
+		CE3C88821895FF6700211049 /* ingame_fever_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ingame_fever_1.mp3; sourceTree = "<group>"; };
+		CE3C88831895FF6700211049 /* ingame_fever_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ingame_fever_2.mp3; sourceTree = "<group>"; };
+		CE3C88841895FF6700211049 /* SingleBgMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingleBgMusic.mp3; sourceTree = "<group>"; };
+		CE3D4EFB18978CEA0098362B /* jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jump.mp3; sourceTree = "<group>"; };
 		CE3E04C2187A40DD004D8AAF /* Sealed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sealed.h; sourceTree = "<group>"; };
 		CE3E04C3187A40DD004D8AAF /* TPCurl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPCurl.cpp; sourceTree = "<group>"; };
 		CE3E04C4187A40DD004D8AAF /* TPCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCurl.h; sourceTree = "<group>"; };
@@ -797,6 +811,10 @@
 		CE727742186FC612005AB35E /* ProceedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProceedController.h; path = ../Classes/ProceedController.h; sourceTree = "<group>"; };
 		CE754D46187172F4000B645F /* BackDrop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BackDrop.cpp; path = ../Classes/BackDrop.cpp; sourceTree = "<group>"; };
 		CE754D47187172F4000B645F /* BackDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackDrop.h; path = ../Classes/BackDrop.h; sourceTree = "<group>"; };
+		CE86A36118A783D4006F43CD /* SingleBgMusic2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SingleBgMusic2.mp3; sourceTree = "<group>"; };
+		CE86A36218A783D4006F43CD /* select.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = select.mp3; sourceTree = "<group>"; };
+		CE86A36318A783D4006F43CD /* ok.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ok.mp3; sourceTree = "<group>"; };
+		CE86A36418A783D4006F43CD /* cancel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cancel.mp3; sourceTree = "<group>"; };
 		CEE4D180188CF81900A44030 /* PropBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PropBox.cpp; path = ../Classes/PropBox.cpp; sourceTree = "<group>"; };
 		CEE4D181188CF81900A44030 /* PropBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropBox.h; path = ../Classes/PropBox.h; sourceTree = "<group>"; };
 		CEFC48BD18715324009CE020 /* Barrier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Barrier.cpp; path = ../Classes/Barrier.cpp; sourceTree = "<group>"; };
@@ -1812,7 +1830,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CE258CFF18926964007FF8A8 /* GameSound */,
+				CE3C887D1895FF6700211049 /* GameMusic */,
 				CE447634187AAC12004E68AD /* GameImage */,
 				1AFAF8B916D35E4900DB1158 /* CloseNormal.png */,
 				1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */,
@@ -1829,14 +1847,6 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
-		CE258CFF18926964007FF8A8 /* GameSound */ = {
-			isa = PBXGroup;
-			children = (
-				CE258D0018926AA6007FF8A8 /* SingleBgMusic.mp3 */,
-			);
-			path = GameSound;
-			sourceTree = "<group>";
-		};
 		CE3415B11891FBEE00F152DD /* Particles */ = {
 			isa = PBXGroup;
 			children = (
@@ -1850,6 +1860,39 @@
 				CE3415B31891FBEE00F152DD /* StarParticle.png */,
 			);
 			path = Particles;
+			sourceTree = "<group>";
+		};
+		CE3C887D1895FF6700211049 /* GameMusic */ = {
+			isa = PBXGroup;
+			children = (
+				CE3C887E1895FF6700211049 /* Android */,
+				CE3C887F1895FF6700211049 /* Ios */,
+			);
+			path = GameMusic;
+			sourceTree = "<group>";
+		};
+		CE3C887E1895FF6700211049 /* Android */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Android;
+			sourceTree = "<group>";
+		};
+		CE3C887F1895FF6700211049 /* Ios */ = {
+			isa = PBXGroup;
+			children = (
+				CE86A36118A783D4006F43CD /* SingleBgMusic2.mp3 */,
+				CE86A36218A783D4006F43CD /* select.mp3 */,
+				CE86A36318A783D4006F43CD /* ok.mp3 */,
+				CE86A36418A783D4006F43CD /* cancel.mp3 */,
+				CE3D4EFB18978CEA0098362B /* jump.mp3 */,
+				CE3C88801895FF6700211049 /* fever_end.mp3 */,
+				CE3C88811895FF6700211049 /* fever_start.mp3 */,
+				CE3C88821895FF6700211049 /* ingame_fever_1.mp3 */,
+				CE3C88831895FF6700211049 /* ingame_fever_2.mp3 */,
+				CE3C88841895FF6700211049 /* SingleBgMusic.mp3 */,
+			);
+			path = Ios;
 			sourceTree = "<group>";
 		};
 		CE3E04C1187A40DD004D8AAF /* curl */ = {
@@ -1945,6 +1988,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE86A36818A783D4006F43CD /* cancel.mp3 in Resources */,
+				CE86A36618A783D4006F43CD /* select.mp3 in Resources */,
 				CE447636187AAC12004E68AD /* num_b.png in Resources */,
 				7855E0E1153FEF240059DD9A /* Default.png in Resources */,
 				D4EF949A15BD2D8B00D803EB /* Icon-57.png in Resources */,
@@ -1954,19 +1999,26 @@
 				CE258CFA1892424E007FF8A8 /* splash.plist in Resources */,
 				CE3415B51891FBEE00F152DD /* StarParticle.png in Resources */,
 				D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */,
+				CE3C88881895FF6700211049 /* ingame_fever_2.mp3 in Resources */,
+				CE3C88851895FF6700211049 /* fever_end.mp3 in Resources */,
 				CE37F3B518910ADE003926E1 /* gElement.plist in Resources */,
 				D4EF94A015BD2D9800D803EB /* Icon-144.png in Resources */,
 				CE258CF91892424E007FF8A8 /* splash.png in Resources */,
 				D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */,
 				CE258CF71892424E007FF8A8 /* Teleport.png in Resources */,
+				CE3C88871895FF6700211049 /* ingame_fever_1.mp3 in Resources */,
 				D446FD6E16102124000ADA7B /* Default@2x.png in Resources */,
+				CE3C88891895FF6700211049 /* SingleBgMusic.mp3 in Resources */,
 				CE37F3B418910ADE003926E1 /* gElement.png in Resources */,
+				CE86A36718A783D4006F43CD /* ok.mp3 in Resources */,
+				CE86A36518A783D4006F43CD /* SingleBgMusic2.mp3 in Resources */,
 				15A3D9961682F7F9002FB0C5 /* CMakeLists.txt in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
+				CE3D4EFC18978CEA0098362B /* jump.mp3 in Resources */,
 				CE258CFE189263C7007FF8A8 /* Sprint.plist in Resources */,
-				CE258D0118926AA6007FF8A8 /* SingleBgMusic.mp3 in Resources */,
 				CE258CF81892424E007FF8A8 /* Teleport.plist in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
+				CE3C88861895FF6700211049 /* fever_start.mp3 in Resources */,
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
 				CEFCA8A01891128F00B43426 /* ballpark-32-hd.png in Resources */,
 				CE3415B41891FBEE00F152DD /* StarParticle.plist in Resources */,

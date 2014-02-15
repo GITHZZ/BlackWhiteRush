@@ -7,16 +7,17 @@
 //
 
 #include "GameEmitter.h"
+#include "GameLogic.h"
 
 //行5列5
 //石头:0 台阶:1 齿轮:2 刺:3 火箭:4
 //冲刺:5 补血:6 冲击波:7
 struct EmitterMsg objs[ROWS * COLS] = {
-    {500.0f,2},{300.0f,5},{350.0f,6},{350.0f,7},{180.0f,2},
+    {300.0f,2},{250.0f,7},{640.0f,0},{170.0f,2},{270.0f,4},
     {300.0f,2},{170.0f,2},{200.0f,2},{170.0f,2},{200.0f,2},
     {300.0f,2},{170.0f,2},{200.0f,2},{170.0f,2},{200.0f,2},
     {300.0f,2},{170.0f,2},{200.0f,2},{170.0f,2},{200.0f,2},
-    {300.0f,2},{170.0f,2},{200.0f,2},{170.0f,2},{200.0f,2}
+    {500.0f,2},{300.0f,2},{350.0f,7},{300.0f,2},{180.0f,2}
 };
 
 GameEmitter::GameEmitter(){    
@@ -32,8 +33,21 @@ GameEmitter::~GameEmitter(){
 }
 
 void GameEmitter::updateDatas(){
+    //控制游戏时间,5min以内 GameLogic->gametime /s
+    CCLOG("+=========G-T==============+%f",GameLogic::Singleton()->getGameTime());
+    float curGameTime = GameLogic::Singleton()->getGameTime();
+    int curRow;
+    if (curGameTime <= 10) {//0-10s
+        curRow = arc4random() % 5;//0~4
+    }else if(curGameTime > 10 && curGameTime <= 60){//10s-1m
+        //curRow = arc4random() % 6 + 5;//5-10
+    }else if(curGameTime > 60 && curGameTime <= 150){//1m-2m30s
+        
+    }else{
+        curRow = arc4random() % 5;//0~4
+    }
 //    int curRow = arc4random() % 5;//0~4
-    int curRow = 0;
+//    int curRow = 0;
     //插入数据(随机抽取是那一列作为初始化)
     for (int i = 0; i < COLS; i++) {
         datas.push_back(dataArr[curRow * ROWS + i]);
@@ -53,7 +67,7 @@ EmitterMsg GameEmitter::popData(){
         data.type = -1;
     }else{
         if (datas.size() <= 3) {//生成新的数据
-            //this->updateDatas();
+            this->updateDatas();
         }
         data = datas[0];
         datas.erase(datas.begin());

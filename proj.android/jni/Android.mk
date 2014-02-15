@@ -8,21 +8,34 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp
+                   ../../Classes/BackDrop.cpp \
+                   ../../Classes/Barrier.cpp \
+                   ../../Classes/GameEmitter.cpp \
+                   ../../Classes/GameLogic.cpp \
+                   ../../Classes/GameObject.cpp \
+                   ../../Classes/HelloWorldScene.cpp \
+                   ../../Classes/Land.cpp \
+                   ../../Classes/ProceedController.cpp \
+                   ../../Classes/ProceedPause.cpp \
+                   ../../Classes/ProceedScene.cpp \
+                   ../../Classes/ProceedView.cpp \
+                   ../../Classes/PropBox.cpp \
+                   ../../Classes/Props.cpp \
+                   ../../Classes/Role.cpp \
+                   ../../Classes/StartScene.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
-
-LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
-LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
-LOCAL_WHOLE_STATIC_LIBRARIES += box2d_static
-LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
-LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
+				 	$(LOCAL_PATH)/../../../cocos2dx\
+					$(LOCAL_PATH)/../../../cocos2dx/platform\
+					$(LOCAL_PATH)/../../../cocos2dx/include\
+  				    $(LOCAL_PATH)/../../../cocosDension/include\
+  				    $(LOCAL_PATH)/../../../external
+ 
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static cocos_extension_static box2d_static
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module,cocos2dx)
-$(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
-$(call import-module,CocosDenshion/android)
-$(call import-module,extensions)
+$(call import-module,CocosDenshion/android) \
+$(call import-module,cocos2dx) \
+$(call import-module,extensions) \
 $(call import-module,external/Box2D)
-$(call import-module,external/chipmunk)

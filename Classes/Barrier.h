@@ -16,8 +16,8 @@ class Barrier : public GameObject{
 public:
     static Barrier* instance(const char* file);
     virtual bool inits(const char* file);
-    virtual void onCollisionEnter(GameObject* collision);
     
+    virtual void onCollisionEnter(GameObject* collision);
     void barrierAction();
 private:
     CC_SYNTHESIZE(BarrierType, _barrierType, BarrierType);

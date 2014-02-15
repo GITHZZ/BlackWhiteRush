@@ -31,7 +31,3 @@ bool Props::inits(const char* file){
     
     return true;
 }
-
-void Props::onCollisionEnter(GameObject* collision){
-    
-}

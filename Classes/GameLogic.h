@@ -56,25 +56,30 @@ public:
     
     //输出游戏状态
     void logGameState(GameState s);
-    //碰撞检测
-    void collisionListener();
     //更新分数
     void updateScore();
     //血量的更新
     void updateBlood();
+    //遍历对象方法
+    void objectsActionFromTraverse(float dt);
     //移动对象
-    void moveGameObject(float dt);
+    void moveGameObject(float dt,int index);
+    //碰撞检测
+    void collisionListener(int index);
     //从发射器中获取数据并且通知View进行渲染
     void getDataFromEmitter();
 private:
     static GameLogic* _singletonObject;
     
     GameEmitter* _emitter;
-    CCScheduler *_pScheduler;
+    CCScheduler* _pScheduler;
     
     float deltaTime;
     float curDeltaTime;
     int reciprocalTime;//时间倒数
+    
+    //游戏时间
+    CC_SYNTHESIZE(float, _gameTime, GameTime);
     
     CC_SYNTHESIZE_READONLY(CCArray*, _objects, Objects);
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);

@@ -12,7 +12,7 @@ CCScene* HelloWorld::scene()
 
     // add layer as a child to scene
     scene->addChild(layer);
-
+    
     // return the scenekk
     return scene;
 }
@@ -74,11 +74,11 @@ bool HelloWorld::init()
 
     // position the sprite on the center of the screen
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
+    pSprite->setOpacity(0);
+    //pSprite->runAction(CCRipple3D::create(2.0f, CCSizeMake(980, 640), pSprite->getPosition(), 10,10,10));
+    pSprite->runAction(CCSpawn::create(CCFadeIn::create(5.0f),CCWaves3D::create(10.0f, CCSizeMake(20, 10), 5, 40),NULL));
     // add the sprite as a child to this layer
     this->addChild(pSprite, 0);
-    
-    
     
     return true;
 }

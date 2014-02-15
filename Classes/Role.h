@@ -12,14 +12,20 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 
+#define Wave_Tag 10
+
 enum RoleState{
     Role_Move,//移动
     Role_Death,//死亡
     Role_Bruise,//受伤
-    Role_JumpOnce,//跳跃
-    Role_JumpSecond,
-    Role_JumpingOnce,
-    Role_JumpingSecond
+};
+
+enum JumpState{
+    Jump_None,
+    Jump_Once,
+    Jump_Second,
+    Jumping_Once,
+    Jumping_Second
 };
 
 enum SkillState{
@@ -38,14 +44,17 @@ public:
     void update(float dt);
     void jumpAction();
     void skillAction(SkillState sk);
+    void deleteObjectsInWave();
     
     void bruiseFunc();
+    void waveFunc(CCObject* sender,void* data);
 private:
     float actionCurTime;
     float deltaTime;
     
     CC_SYNTHESIZE(RoleState, _rState, State);
     CC_SYNTHESIZE(SkillState, _skState, SkState);
+    CC_SYNTHESIZE(JumpState, _jState, SjState);
     CC_SYNTHESIZE(CCPoint, _standardPoint,StandardPos);
 };
 

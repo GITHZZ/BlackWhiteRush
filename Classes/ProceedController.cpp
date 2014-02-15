@@ -8,6 +8,9 @@
 
 #include "ProceedController.h"
 #include "ProceedView.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 bool ProceedController::init(){
     if (!CCLayer::init()) {
@@ -54,6 +57,7 @@ CCMenuItemSprite* ProceedController::instanceButton(const char *unselected, cons
 void ProceedController::gamePauseFunc(){
     CCLOG("+=============pause bottom press down==============+");
     if (GameLogic::Singleton()->getState() == State_Playing) {
+        SimpleAudioEngine::sharedEngine()->playEffect("select.mp3");
         GameLogic::Singleton()->setState(State_Pause);
     }else if(GameLogic::Singleton()->getState() == State_Pause){
 //        GameLogic::Singleton()->setState(State_Playing);
@@ -67,10 +71,11 @@ void ProceedController::gamePauseFunc(){
 
 void ProceedController::gameJumpFunc(){
     CCLOG("+==============game jump press down=================+");
-    if (GameLogic::Singleton()->getPView()->getRole()->getState() == Role_Move) {
-        GameLogic::Singleton()->getPView()->getRole()->setState(Role_JumpOnce);
-    }else if(GameLogic::Singleton()->getPView()->getRole()->getState() == Role_JumpingOnce){
-        GameLogic::Singleton()->getPView()->getRole()->setState(Role_JumpSecond);
+    if (GameLogic::Singleton()->getPView()->getRole()->getState() != Role_Death &&
+        GameLogic::Singleton()->getPView()->getRole()->getSjState() == Jump_None) {
+        GameLogic::Singleton()->getPView()->getRole()->setSjState(Jump_Once);
+    }else if(GameLogic::Singleton()->getPView()->getRole()->getSjState() == Jumping_Once){
+        GameLogic::Singleton()->getPView()->getRole()->setSjState(Jump_Second);
     }
 }
 
@@ -81,6 +86,9 @@ void ProceedController::gameFeverFunc(){
     //加倍
     //增加倍数
     if(GameLogic::Singleton()->getMultiple() <= 80){
+        if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            SimpleAudioEngine::sharedEngine()->playEffect("fever_start.mp3");
+        
         GameLogic::Singleton()->setMultiple(GameLogic::Singleton()->getMultiple() + 10);
     }
     GameLogic::Singleton()->getPView()->getProgress()->setPercentage(0.0f);

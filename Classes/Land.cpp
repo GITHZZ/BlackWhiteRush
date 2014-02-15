@@ -26,11 +26,9 @@ bool Land::inits(const char *file){
     
     _objType = Object_Land;
     _speed = 150;
+    //_groundIndex = -1;
+    //_isTrigger = true;
     //_boxRect = CCSizeMake(0.5f, 0.5f);
     
     return  true;
-}
-
-void Land::onCollisionEnter(GameObject *collision){
-    
 }

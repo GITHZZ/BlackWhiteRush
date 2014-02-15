@@ -31,7 +31,3 @@ bool BackDrop::inits(const char *file){
     
     return true;
 }
-
-void BackDrop::onCollisionEnter(GameObject *collision){
-    
-}
