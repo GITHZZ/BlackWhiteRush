@@ -8,6 +8,7 @@
 
 #include "StartScene.h"
 #include "SimpleAudioEngine.h"
+#include "SoundResources.h"
 #include "ProceedScene.h"
 
 using namespace CocosDenshion;
@@ -33,7 +34,9 @@ bool StartAnim::init(){
     CCSprite* bg = CCSprite::createWithSpriteFrameName("bg_w.png");
     bg->setPosition(ccp(size.width/2,size.height/2));
     bg->setOpacity(0);
-    bg->setScale(2.0f);
+    bg->setScaleX(2.5f);
+    bg->setScaleY(2.0f);
+    
     bg->runAction(CCSpawn::create(CCFadeIn::create(4.0f),
                                   CCWaves3D::create(4.0f, CCSizeMake(10, 10), 2, 20),
                                   NULL));
@@ -41,11 +44,11 @@ bool StartAnim::init(){
     this->addChild(bg,-1,BACKGROUND_TAG);
     
     CCLabelBMFont* bwGame = CCLabelBMFont::create("BlackWhiteGame", "ballpark-32-hd.fnt");
-    bwGame->setPosition(ccp(size.width/4, size.height/4));
+    bwGame->setPosition(ccp(size.width/4 - 40, size.height/4));
     bg->addChild(bwGame);
     
     //预加载
-    SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("SingleBgMusic2.mp3");
+    SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic(S_BACKGROUND);
     
     this->schedule(schedule_selector(StartAnim::backgroundWaveEnd), 1.0f/60.0f);
     
@@ -85,7 +88,8 @@ bool StartScene::init(){
     
     CCSprite* bg = CCSprite::createWithSpriteFrameName("bg_w.png");
     bg->setPosition(ccp(size.width/2,size.height/2));
-    bg->setScale(2.0f);
+    bg->setScaleX(2.5f);
+    bg->setScaleY(2.0f);
     this->addChild(bg,-1,BACKGROUND_TAG);
     
     CCLabelBMFont* bwTitle = CCLabelBMFont::create("BlackWhiteRush", "ballpark-32-hd.fnt");
@@ -139,7 +143,7 @@ void StartScene::gameStart(){
     CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFrameByName("gElement.plist");
     CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.0f, ProceedScene::create()));
     SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
+    SimpleAudioEngine::sharedEngine()->playEffect(S_OK);
 }
 
 void StartScene::addSelectButton(){
@@ -147,19 +151,18 @@ void StartScene::addSelectButton(){
 }
 
 void StartScene::preLoadSoundResources(){
-    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) {
-        SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("fever_start.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("fever_end.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("ingame_fever_1.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("ingame_fever_2.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("select.mp3");
-        SimpleAudioEngine::sharedEngine()->preloadEffect("ok.mp3");
-    }else if(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID){
-        
-    }
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_JUMP);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_WAVE);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_FEVER_START);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_FEVER_END);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_FEVER_1);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_SELECT);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_OK);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_GAIN);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_SPRINT);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(S_RECIPROCAL);
 }
 
 void StartScene::playBackgroundMusic(){
-    SimpleAudioEngine::sharedEngine()->playBackgroundMusic("SingleBgMusic2.mp3");
+    SimpleAudioEngine::sharedEngine()->playBackgroundMusic(S_BACKGROUND,true);
 }

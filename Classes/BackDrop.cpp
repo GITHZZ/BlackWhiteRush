@@ -26,8 +26,7 @@ bool BackDrop::inits(const char *file){
     
     _objType = Object_Background;
     _speed = 180;
-    _boxRect = CCSizeMake(0.0f, 0.0f);
-    _groundIndex = -1;
-    
+     _isBox2DBody = false;
+
     return true;
 }

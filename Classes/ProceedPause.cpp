@@ -9,11 +9,12 @@
 #include "ProceedPause.h"
 #include "ProceedScene.h"
 #include "SimpleAudioEngine.h"
+#include "SoundResources.h"
+#include "StartScene.h"
 
 using namespace CocosDenshion;
 
 ProceedPause::~ProceedPause(){
-    
 }
 
 bool ProceedPause::init(){
@@ -29,12 +30,17 @@ bool ProceedPause::init(){
     
     //添加按钮
     //继续
-    CCMenuItemSprite* backBtn = this->instanceButton("back1.png","back2.png",menu_selector(ProceedPause::backBtnFunc));
+    CCMenuItemSprite* backBtn = this->instanceButton("back1.png","back2.png",menu_selector(ProceedPause::menuButtonFunc));
+    backBtn->setTag(PA_BACKBTN_TAG);
+    
     //主页
-    CCMenuItemSprite* homeBtn = this->instanceButton("home.png", "home2.png",menu_selector(ProceedPause::homeBtnFunc));
+    CCMenuItemSprite* homeBtn = this->instanceButton("home.png", "home2.png",menu_selector(ProceedPause::menuButtonFunc));
+    homeBtn->setTag(PA_HOMEBTN_TAG);
+    
     //重新开始
-    CCMenuItemSprite* restartBtn = this->instanceButton("restart.png", "restart.png", menu_selector(ProceedPause::restartBtnFunc));
+    CCMenuItemSprite* restartBtn = this->instanceButton("restart.png", "restart.png", menu_selector(ProceedPause::menuButtonFunc));
     restartBtn->setScale(1.3f);
+    restartBtn->setTag(PA_RESTARTBTN_TAG);
     
     CCMenu* menu = CCMenu::create(backBtn,homeBtn,restartBtn,NULL);
     menu->setPosition(CCPointZero);
@@ -55,28 +61,36 @@ CCMenuItemSprite* ProceedPause::instanceButton(const char *unselected, const cha
     return selBtn;
 }
 
-void ProceedPause::backBtnFunc(){
-    if (GameLogic::Singleton()->getState() == State_Pause) {
-        SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
-        GameLogic::Singleton()->setState(State_Playing);
+void ProceedPause::menuButtonFunc(CCObject* obj){
+    CCMenuItemSprite* menuObj = dynamic_cast<CCMenuItemSprite*>(obj);
+    SimpleAudioEngine::sharedEngine()->playEffect(S_OK);
+    
+    switch (menuObj->getTag()) {
+        case PA_BACKBTN_TAG:{
+            if (GameLogic::Singleton()->getState() == State_Pause) {
+                GameLogic::Singleton()->setState(State_Playing);
+            }
+        }
+            break;
+        case PA_HOMEBTN_TAG:{
+            GameLogic::Singleton()->end();
+            
+            CCDirector::sharedDirector()->purgeCachedData();
+            CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(2.5f, StartScene::scene()));
+
+        }
+            break;
+        case PA_RESTARTBTN_TAG:{
+            SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
+            
+            GameLogic::Singleton()->end();
+            
+            CCDirector::sharedDirector()->purgeCachedData();
+            CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(2.5f, ProceedScene::create()));
+
+        }
+            break;
+        default:
+            break;
     }
-}
-
-void ProceedPause::homeBtnFunc(){
-    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
-    //CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFrameByName("gElement.plist");
-    GameLogic::Singleton()->end();
-}
-
-void ProceedPause::musicBtnFunc(){
-    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
-}
-
-void ProceedPause::restartBtnFunc(){
-    SimpleAudioEngine::sharedEngine()->playEffect("ok.mp3");
-    
-    GameLogic::Singleton()->end();
-    
-    CCDirector::sharedDirector()->purgeCachedData();
-    CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(2.5f, ProceedScene::create()));
 }

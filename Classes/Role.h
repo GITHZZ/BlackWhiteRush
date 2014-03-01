@@ -12,7 +12,10 @@
 #include "cocos2d.h"
 #include "GameObject.h"
 
-#define Wave_Tag 10
+#define Wave_Tag            10
+#define Sprint_Tag          20
+#define Star_Particle_Tag   30
+#define Blood_Particle_Tag  40
 
 enum RoleState{
     Role_Move,//移动
@@ -44,10 +47,12 @@ public:
     void update(float dt);
     void jumpAction();
     void skillAction(SkillState sk);
-    void deleteObjectsInWave();
+    void deleteObjectsInWave();//删除对象如果用wave技能
+    void removeObject(GameObject* obj);
     
-    void bruiseFunc();
+    void bruiseFunc(CCObject *sender,void *data);
     void waveFunc(CCObject* sender,void* data);
+    void sprintFunc(CCObject* sender,void* data);
 private:
     float actionCurTime;
     float deltaTime;

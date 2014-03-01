@@ -9,6 +9,7 @@
 #include "ProceedController.h"
 #include "ProceedView.h"
 #include "SimpleAudioEngine.h"
+#include "SoundResources.h"
 
 using namespace CocosDenshion;
 
@@ -27,18 +28,19 @@ bool ProceedController::init(){
     
     //跳跃按钮
     CCMenuItemSprite *jump = this->instanceButton("control_btn1.png", "control_btn2.png", menu_selector(ProceedController::gameJumpFunc));
-    jump->setScale(1.5f);
+    jump->setScale(1.6f);
     jump->setPosition(ccp(size.width - jump->getContentSize().width - 50, 100));
     
     //fever按钮
-    CCMenuItemSprite *fever = this->instanceButton("fever.png", "fever.png",menu_selector(ProceedController::gameFeverFunc));
+    CCMenuItemSprite *fever = this->instanceButton("Fever_1_1.png", "Fever_1_1.png",menu_selector(ProceedController::gameFeverFunc));
     fever->setScale(1.5f);
-    fever->setPosition(ccp(jump->getPosition().x - fever->getContentSize().width * 1.5,
+    fever->setOpacity(0.0f);
+    fever->setPosition(ccp(jump->getPosition().x - fever->getContentSize().width * 2.0,
                            jump->getPosition().y));
     
     CCMenu *menu = CCMenu::create(pause,jump,fever,NULL);
     menu->setPosition(0, 0);
-    this->addChild(menu,100);
+    this->addChild(menu,80);
     
     return true;
 }
@@ -57,10 +59,10 @@ CCMenuItemSprite* ProceedController::instanceButton(const char *unselected, cons
 void ProceedController::gamePauseFunc(){
     CCLOG("+=============pause bottom press down==============+");
     if (GameLogic::Singleton()->getState() == State_Playing) {
-        SimpleAudioEngine::sharedEngine()->playEffect("select.mp3");
+        SimpleAudioEngine::sharedEngine()->playEffect(S_SELECT);
         GameLogic::Singleton()->setState(State_Pause);
     }else if(GameLogic::Singleton()->getState() == State_Pause){
-//        GameLogic::Singleton()->setState(State_Playing);
+        GameLogic::Singleton()->setState(State_Playing);
     }
     
     //若是多人进行状态
@@ -86,9 +88,7 @@ void ProceedController::gameFeverFunc(){
     //加倍
     //增加倍数
     if(GameLogic::Singleton()->getMultiple() <= 80){
-        if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            SimpleAudioEngine::sharedEngine()->playEffect("fever_start.mp3");
-        
+        SimpleAudioEngine::sharedEngine()->playEffect(S_FEVER_1);
         GameLogic::Singleton()->setMultiple(GameLogic::Singleton()->getMultiple() + 10);
     }
     GameLogic::Singleton()->getPView()->getProgress()->setPercentage(0.0f);

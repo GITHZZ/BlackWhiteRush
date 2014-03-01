@@ -29,18 +29,18 @@ bool Barrier::inits(const char *file){
     _objType = Object_Block;
     _barrierType = Barrier_None;
     _speed = 200;
-    _boxRect = CCSizeMake(0.5f, 0.5f);
-    _groundIndex = -2;
+    _isBox2DBody = false;
     
     return true;
 }
 
 void Barrier::barrierAction(){
-    if (_barrierType == Barrier_Gear ||
-        _barrierType == Barrier_Stone ||
-        _barrierType == Barrier_Rocket) {//旋转
+    if (_barrierType == Barrier_Stone) {//旋转
         float newAngle  = CC_RADIANS_TO_DEGREES((CC_DEGREES_TO_RADIANS(_pB2Body->GetAngle()) + 0.001f));
         _pB2Body->SetTransform(_pB2Body->GetPosition(), newAngle);
+    }else if(_barrierType == Barrier_Gear ||
+             _barrierType == Barrier_Rocket){
+        this->setRotation(this->getRotation() - 2.0f);
     }
 }
 

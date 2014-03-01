@@ -10,7 +10,7 @@
 #define __BlackWhiteRush__GameObject__
 
 #include "cocos2d.h"
-#include "Box2D.h"
+#include "Box2D/Box2D.h"
 
 USING_NS_CC;
 
@@ -40,7 +40,7 @@ enum PropType {
 
 class GameObject : public CCSprite{
 public:
-    virtual bool init();
+    virtual bool inits();
     virtual void onCollisionEnter(GameObject* collision){};
     virtual CCAffineTransform nodeToParentTransform();
     
@@ -50,11 +50,11 @@ public:
     void setPtmRadio(float ptm);
     float getPtmRadio() const;
     
-    void setBodyPosition(const CCPoint &position);
-    CCPoint getBodyPosition() const;
+    void setObjPosition(const CCPoint &position);
+    CCPoint getObjPosition();
     
-    void setBodyRotation(float fRotation);
-    float getBodyRotation() const;
+    void setObjRotation(float fRotation);
+    float getObjRotation();
     
     void checkCollision(GameObject* collision);
 protected:
@@ -81,6 +81,8 @@ private:
     CC_SYNTHESIZE(float, _density, Density);
     //弹力
     CC_SYNTHESIZE(float, _friction, Friction);
+    //是否为box2D的对象
+    CC_SYNTHESIZE(bool, _isBox2DBody, IsBody);
 };
 
 #endif /* defined(__BlackWhiteRush__GameObject__) */

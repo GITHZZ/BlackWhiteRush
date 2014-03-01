@@ -27,7 +27,7 @@ bool Props::inits(const char* file){
     _objType = Object_Prop;
     _propType = Prop_None;
     _speed = 200;
-    _boxRect = CCSizeMake(0.5f, 0.5f);
-    
+    _isBox2DBody = false;
+
     return true;
 }

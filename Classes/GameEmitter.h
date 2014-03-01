@@ -15,9 +15,8 @@
 
 #include "cocos2d.h"
 
-#define ROWS 5
+#define ROWS 10
 #define COLS 5
-#define EMITTER_START_POSX 960
 
 struct EmitterMsg{
     float positionY;//发射的Y轴位置

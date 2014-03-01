@@ -14,7 +14,9 @@
 
 #include "GameLogic.h"
 #include "ProceedView.h"
+#include "ProceedEnd.h"
 #include "SimpleAudioEngine.h"
+#include "SoundResources.h"
 
 using namespace CocosDenshion;
 
@@ -77,6 +79,8 @@ void GameLogic::init(){
     //初始化游戏时间
     _gameTime = 0.0f;
     
+    _level = 1;
+    
     //初始化血量
     _blood = 100;//100%
     
@@ -104,8 +108,9 @@ void GameLogic::update(float dt){
             curDeltaTime += dt;
             if (curDeltaTime >= deltaTime) {
                 reciprocalTime --;
+                SimpleAudioEngine::sharedEngine()->playEffect(S_RECIPROCAL);
                 if (reciprocalTime == 0) {
-                    //SimpleAudioEngine::sharedEngine()->playBackgroundMusic("SingleBgMusic.mp3");
+                    SimpleAudioEngine::sharedEngine()->playBackgroundMusic(S_BACKGROUND,true);
                     _state = State_Playing;
                     _proceedview->removeChild(_proceedview->getReciprocal(), false);
                     return;
@@ -133,13 +138,13 @@ void GameLogic::update(float dt){
             _proceedview->removePausePanel();
             _proceedview->removePauseShade();
             //更新Fever
-            _proceedview->updateFever();
+            float curPercentage = _proceedview->getProgress()->getPercentage();
+            _proceedview->updateFever(curPercentage += 0.1f , _feverState);
             if (_proceedview->getProgress()->getPercentage() >= 100) {
                 //如果状态是不可按下就设成为可以按下
                 if (_feverState == Fever_unable) _feverState = Fever_enable;
                 if (_feverState == Fever_doing) {
-                    if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-                        SimpleAudioEngine::sharedEngine()->playEffect("ingame_fever_1.mp3");
+                    SimpleAudioEngine::sharedEngine()->playEffect(S_FEVER_1);
                     
                     _proceedview->getProgress()->setPercentage(0);
                     _multiple += 10;
@@ -151,6 +156,8 @@ void GameLogic::update(float dt){
             this->updateBlood();
             //更新游戏时间
             _gameTime += dt;
+            //游戏等级
+            this->updateLevel();
             //产生障碍物,道具 间隔时间 1S 产生
             curDeltaTime += dt;
             if (curDeltaTime >= deltaTime) {
@@ -158,7 +165,8 @@ void GameLogic::update(float dt){
                 curDeltaTime = 0.0f;
             }
             //判断游戏结束条件
-            if (_blood <= 3.0f) {
+            //CCLOG("+===========BLOOD COUNT==========%f+",_blood);
+            if (_blood <= 10.0f) {
                 _state = State_End;
             }
         }
@@ -173,7 +181,13 @@ void GameLogic::update(float dt){
         case State_End:{
             //游戏结束,弹出结果,分数.上传分数
             //如果是多人游戏,就是列出分数并且选出最高分
-            CCLOG("+================Game End========================+");
+            Role* role = _proceedview->getRole();
+            role->runAction(CCScaleTo::create(2.0f,2.0f));
+            
+            _proceedview->addEndPanel();
+            _proceedview->addPauseShade();
+            
+            CCLOG("+================GAME END========================+");
         }
             break;
         default:
@@ -181,10 +195,14 @@ void GameLogic::update(float dt){
     }
 }
 
+void GameLogic::gameEnd(){
+
+}
+
 void GameLogic::objectsActionFromTraverse(float dt){
     if (_objects && _objects->count() > 0) {
         for (int i = 0; i < _objects->count(); i++) {
-            if (_state == State_Playing) {
+            if (_state == State_Playing){
                 this->collisionListener(i);
             }
             this->moveGameObject(dt, i);
@@ -196,8 +214,16 @@ void GameLogic::moveGameObject(float dt,int index){
     GameObject *obj = dynamic_cast<GameObject*>(_objects->objectAtIndex(index));
     //如果是主角不用移动
     if (obj->getObjType() == Object_Role) return;
-            
-    obj->setBodyPosition(ccp(obj->getBodyPosition().x - obj->getSpeed() * dt, obj->getBodyPosition().y));
+    
+    //移动
+    if (_proceedview->getRole()->getSkState() == Skill_Sprint) {
+        int temp = 6;
+        obj->setObjPosition(ccp(obj->getObjPosition().x - obj->getSpeed() * (dt + (temp * 0.01)),
+                                obj->getObjPosition().y));
+    }else{
+        obj->setObjPosition(ccp(obj->getObjPosition().x - obj->getSpeed() * (dt + (_level * 0.01)),
+                                obj->getObjPosition().y));
+    }
     
     if (obj->getObjType() == Object_Block){
         Barrier* bar = dynamic_cast<Barrier*>(obj);
@@ -206,13 +232,13 @@ void GameLogic::moveGameObject(float dt,int index){
     
     //如果是背景对象而且位置已经超过了就删除并且添加新的
     if (obj->getObjType() == Object_Background &&
-        obj->getBodyPosition().x <= -obj->getContentSize().width) {
+        obj->getObjPosition().x <= -obj->getContentSize().width) {
         CCLOG("++++++++++remove background+++++++++++++++");
         
         GameObject *lastObj = this->popObjectFromType(Object_Background);
         
-        _proceedview->drawBackground(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(),
-                                             lastObj->getBodyPosition().y));
+        _proceedview->drawBackground(ccp(lastObj->getObjPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(),
+                                         lastObj->getObjPosition().y));
 
         _proceedview->removeChild(obj);
         _proceedview->destroyBody(obj);
@@ -223,21 +249,21 @@ void GameLogic::moveGameObject(float dt,int index){
         
     //陆地地面
     if (obj->getObjType() == Object_Land &&
-        obj->getBodyPosition().x <= -obj->getContentSize().width) {
+        obj->getObjPosition().x <= -obj->getContentSize().width) {
         CCLOG("+++++++++++++remove land++++++++++++++++++++++");
             
         GameObject *lastObj = this->popObjectFromType(Object_Land);
             
-        _proceedview->drawLand(ccp(lastObj->getBodyPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(), lastObj->getBodyPosition().y));
+        _proceedview->drawLand(ccp(lastObj->getObjPosition().x + lastObj->getContentSize().width * lastObj->getScaleX(), lastObj->getObjPosition().y));
         _proceedview->removeChild(obj);
         _proceedview->destroyBody(obj);
         this->deleteObject(obj);
             
         return;
     }
-        
+
     //如果是非背景和非主角
-    if (obj->getBodyPosition().x <= -obj->getContentSize().width) {
+    if (obj->getObjPosition().x <= -obj->getContentSize().width) {
         CCLOG("++++++++++++++++remove game object++++++++++++++++");
         _proceedview->removeChild(obj);
         _proceedview->destroyBody(obj);
@@ -247,31 +273,33 @@ void GameLogic::moveGameObject(float dt,int index){
 
 void GameLogic::getDataFromEmitter(){
     EmitterMsg msg = _emitter->popData();
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
     CCLOG("+======Emitter:TYPE %d ++ POSITIONY %f=========+",msg.type,msg.positionY);
     switch (msg.type) {
         case Barrier_Stone:
-            _proceedview->drawBarrier(Barrier_Stone, ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawBarrier(Barrier_Stone, ccp(size.width,msg.positionY));
             break;
         case Barrier_Step:
-            _proceedview->drawBarrier(Barrier_Step, ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawBarrier(Barrier_Step, ccp(size.width,msg.positionY));
             break;
         case Barrier_Gear:
-            _proceedview->drawBarrier(Barrier_Gear,ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawBarrier(Barrier_Gear,ccp(size.width,msg.positionY));
             break;
         case Barrier_Stab:
-            _proceedview->drawBarrier(Barrier_Stab,ccp(EMITTER_START_POSX,SUB_HEIGHT + 40));
+            _proceedview->drawBarrier(Barrier_Stab,ccp(size.width,SUB_HEIGHT + 40));
             break;
         case Barrier_Rocket:
-            _proceedview->drawBarrier(Barrier_Rocket,ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawBarrier(Barrier_Rocket,ccp(size.width,msg.positionY));
             break;
         case Prop_Sprint:
-            _proceedview->drawProp(Prop_Sprint,ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawProp(Prop_Sprint,ccp(size.width,msg.positionY));
             break;
         case Prop_Blood:
-            _proceedview->drawProp(Prop_Blood, ccp(EMITTER_START_POSX,msg.positionY));
+            _proceedview->drawProp(Prop_Blood, ccp(size.width,msg.positionY));
             break;
         case Prop_Wave:
-            _proceedview->drawProp(Prop_Wave, ccp(EMITTER_START_POSX, msg.positionY));
+            _proceedview->drawProp(Prop_Wave, ccp(size.width, msg.positionY));
             break;
         default:
             break;
@@ -279,7 +307,11 @@ void GameLogic::getDataFromEmitter(){
 }
 
 void GameLogic::updateScore(){
-    _score += _multiple;
+    if (_proceedview->getRole()->getSkState() == Skill_Sprint) {
+        _score += _multiple;
+    }else{
+        _score += _multiple + 20;
+    }
 }
 
 void GameLogic::updateBlood(){
@@ -291,6 +323,14 @@ void GameLogic::updateBlood(){
         _blood += 0.02;//如果小于100就不断的增加 2%
     }
     _proceedview->updateBlood(_blood);
+}
+
+void GameLogic::updateLevel(){
+    if (_gameTime >= 20 + 85 * (_level - 1) &&
+        _level <= 5) {
+        _level ++;
+        CCLOG("+=============CURRENT LEVEL %d=====================+",_level);
+    }
 }
 
 void GameLogic::pushObject(GameObject *gameObject){

@@ -36,9 +36,9 @@ enum GameState {
 };
 
 enum FeverState{
-    Fever_unable,
-    Fever_enable,
-    Fever_doing
+    Fever_unable = 0,
+    Fever_enable = 1,
+    Fever_doing = 2
 };
 
 class GameLogic : public CCObject{
@@ -60,6 +60,8 @@ public:
     void updateScore();
     //血量的更新
     void updateBlood();
+    //更新游戏等级
+    void updateLevel();
     //遍历对象方法
     void objectsActionFromTraverse(float dt);
     //移动对象
@@ -68,6 +70,8 @@ public:
     void collisionListener(int index);
     //从发射器中获取数据并且通知View进行渲染
     void getDataFromEmitter();
+    //改变游戏状态为结束
+    void gameEnd();
 private:
     static GameLogic* _singletonObject;
     
@@ -80,6 +84,9 @@ private:
     
     //游戏时间
     CC_SYNTHESIZE(float, _gameTime, GameTime);
+    
+    //游戏目前等级
+    CC_SYNTHESIZE_READONLY(int, _level, Level);
     
     CC_SYNTHESIZE_READONLY(CCArray*, _objects, Objects);
     CC_SYNTHESIZE(ProceedView*, _proceedview, PView);

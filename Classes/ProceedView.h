@@ -19,14 +19,14 @@
 #define __BlackWhiteRush__ProceedView__
 
 #include "cocos2d.h"
+#include "Box2D/Box2D.h"
+
 #include "GameLogic.h"
 #include "Role.h"
 #include "Props.h"
 #include "Land.h"
 #include "Barrier.h"
 #include "BackDrop.h"
-#include "ProceedPause.h"
-#include "Box2D.h"
 
 USING_NS_CC;
 
@@ -34,6 +34,7 @@ USING_NS_CC;
 #define SUB_HEIGHT 200 //最低高度
 #define PAUSE_PANEL_TAG 300
 #define PAUSE_SHADE_TAG 310
+#define END_PANEL_TAG   320
 
 #if GLESDEBUG_DRAW_ENABLE 
 class GLESDebugDraw;
@@ -71,14 +72,17 @@ public:
     void drawPropToBox(PropType ty);
     
     void updateScore();
-    void updateFever();
+    void updateFever(float feverCount,FeverState state);
     void updateBlood(float percentage);
     
     void addPausePanel();
     void removePausePanel();
+    
+    void addEndPanel();
+    
     void addPauseShade();//暂停用添加遮罩
     void removePauseShade();
-
+    
 private:    
     b2World* _world;
     CCRect _visibleSize;
@@ -91,6 +95,7 @@ private:
     
     CC_SYNTHESIZE_READONLY(Role*,role,Role);
     CC_SYNTHESIZE_READONLY(CCProgressTimer*,feverProgress,Progress);
+    CC_SYNTHESIZE_READONLY(CCSprite*,feverBtn,FeverBtn);
     CC_SYNTHESIZE_READONLY(CCProgressTimer*,bloodProgress,BloodProgress);
     
 #if GLESDEBUG_DRAW_ENABLE

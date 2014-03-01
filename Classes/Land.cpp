@@ -26,6 +26,7 @@ bool Land::inits(const char *file){
     
     _objType = Object_Land;
     _speed = 150;
+    _isBox2DBody = true;
     //_groundIndex = -1;
     //_isTrigger = true;
     //_boxRect = CCSizeMake(0.5f, 0.5f);

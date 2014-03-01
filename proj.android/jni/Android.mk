@@ -10,6 +10,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/BackDrop.cpp \
                    ../../Classes/Barrier.cpp \
+                   ../../Classes/SoundResources.h \
                    ../../Classes/GameEmitter.cpp \
                    ../../Classes/GameLogic.cpp \
                    ../../Classes/GameObject.cpp \
@@ -22,7 +23,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/PropBox.cpp \
                    ../../Classes/Props.cpp \
                    ../../Classes/Role.cpp \
-                   ../../Classes/StartScene.cpp
+                   ../../Classes/StartScene.cpp \
+                   ../../Classes/ProceedEnd.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
 				 	$(LOCAL_PATH)/../../../cocos2dx\
